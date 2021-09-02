@@ -1,4 +1,4 @@
-package com.ishant.passwordmanager
+package com.ishant.passwordmanager.ui.activities.password_activity
 
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -7,9 +7,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.navigation.Navigation
+import androidx.navigation.ui.setupWithNavController
+import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.ActivityMainBinding
 
 class PasswordActivity : AppCompatActivity() {
@@ -28,7 +30,10 @@ class PasswordActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
 
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,binding.toolbar,R.string.open,R.string.close)
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,binding.toolbar,
+            R.string.open,
+            R.string.close
+        )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -49,6 +54,12 @@ class PasswordActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.background = null
         binding.bottomNavigationView.menu.getItem(2).isEnabled = false
+
+        val navController = Navigation.findNavController(this, R.id.fragment)
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+
+
 
     }
 
