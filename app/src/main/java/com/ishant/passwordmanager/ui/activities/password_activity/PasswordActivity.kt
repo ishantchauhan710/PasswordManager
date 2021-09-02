@@ -19,30 +19,41 @@ class PasswordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        setUpActionBar()
+        setUpNavigationBar()
+
+        val navController = Navigation.findNavController(this, R.id.fragment)
+        binding.bottomNavigationView.setupWithNavController(navController)
+
+    }
 
 
+    private fun setUpActionBar() {
+        // Setting up Action Bar
         setSupportActionBar(binding.toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,binding.toolbar,
-            R.string.open,
-            R.string.close
-        )
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout,binding.toolbar, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
-        // Action Bar Color
+        // Action Bar Toggle Color
         val upArrow: Drawable = resources.getDrawable(R.drawable.ic_drawable_toggle)
         upArrow.setColorFilter(Color.parseColor("#343434"), PorterDuff.Mode.SRC_ATOP)
         supportActionBar?.setHomeAsUpIndicator(upArrow)
+    }
+
+    private fun setUpNavigationBar() {
         // Navigation Bar Color
         window.navigationBarColor = Color.BLACK
+        binding.bottomNavigationView.background = null
+        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
 
         binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
@@ -51,16 +62,6 @@ class PasswordActivity : AppCompatActivity() {
             }
             true
         }
-
-        binding.bottomNavigationView.background = null
-        binding.bottomNavigationView.menu.getItem(2).isEnabled = false
-
-        val navController = Navigation.findNavController(this, R.id.fragment)
-        binding.bottomNavigationView.setupWithNavController(navController)
-
-
-
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
