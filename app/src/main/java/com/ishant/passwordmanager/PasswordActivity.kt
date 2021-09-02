@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
@@ -40,9 +41,8 @@ class PasswordActivity : AppCompatActivity() {
 
         binding.navView.setNavigationItemSelectedListener {
             when(it.itemId) {
-                R.id.miItem1 -> Toast.makeText(applicationContext,"Item 1",Toast.LENGTH_SHORT).show()
-                R.id.miItem2 -> Toast.makeText(applicationContext,"Item 2",Toast.LENGTH_SHORT).show()
-                R.id.miItem3 -> Toast.makeText(applicationContext,"Item 3",Toast.LENGTH_SHORT).show()
+                R.id.miSocial -> Toast.makeText(applicationContext,"Social",Toast.LENGTH_SHORT).show()
+                R.id.miChangePassword -> Toast.makeText(applicationContext,"Change Password",Toast.LENGTH_SHORT).show()
             }
             true
         }
@@ -52,7 +52,17 @@ class PasswordActivity : AppCompatActivity() {
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val menu = menuInflater.inflate(R.menu.action_bar_menu,menu)
+        return true
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+        when(item.itemId) {
+            R.id.miSearchButton -> Toast.makeText(applicationContext,"Menu Search Button Pressed",Toast.LENGTH_SHORT).show()
+        }
+
         if(toggle.onOptionsItemSelected(item)) {
             return true
         }

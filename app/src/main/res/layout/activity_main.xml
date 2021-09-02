@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.drawerlayout.widget.DrawerLayout
     android:id="@+id/drawerLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -12,6 +11,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#F1F1F1"
         tools:context=".PasswordActivity">
 
         <LinearLayout
@@ -33,7 +33,7 @@
 
                     <androidx.appcompat.widget.Toolbar
                         android:id="@+id/toolbar"
-                        app:title="Title"
+                        app:title="Search"
                         android:background="#ffffff"
                         app:titleTextColor="#343434"
                         android:layout_width="match_parent"
@@ -87,6 +87,7 @@
         android:id="@+id/navView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        app:headerLayout="@layout/drawer_header_layout"
         app:menu="@menu/nav_menu"
         android:layout_gravity="start"
         android:fitsSystemWindows="true" />

@@ -1,14 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/miItem1"
-        android:title="Item 1" />
+<?xml version= "1.0" encoding= "utf-8" ?>
+<menu xmlns:android = "http://schemas.android.com/apk/res/android"
+    xmlns:tools = "http://schemas.android.com/tools"
+    tools:showIn= "navigation_view">
 
-    <item
-        android:id="@+id/miItem2"
-        android:title="Item 2" />
+    <group android:checkableBehavior= "single">
 
-    <item
-        android:id="@+id/miItem3"
-        android:title="Item 3" />
+        <item
+            android:id= "@+id/miSocial"
+            android:icon="@drawable/ic_social"
+            android:title= "Social" />
+
+        <item
+            android:id= "@+id/miMails"
+            android:icon="@drawable/ic_mail"
+            android:title= "Mails" />
+
+
+        <item
+            android:id= "@+id/miCards"
+            android:icon="@drawable/ic_card"
+            android:title= "Cards" />
+
+        <item
+            android:id= "@+id/miOthers"
+            android:icon="@drawable/ic_others"
+            android:title= "Others" />
+
+    </group>
+
+    <item android:title= "Settings" >
+        <menu>
+            <item
+                android:id= "@+id/miChangePassword"
+                android:icon="@drawable/ic_password_change"
+                android:title= "Change Password" />
+            <item
+                android:id= "@+id/miChangeTheme"
+                android:icon="@drawable/ic_theme"
+                android:title= "Change Theme" />
+        </menu>
+    </item>
 </menu>
