@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.ui.activities.password_activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -12,18 +13,19 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.ishant.passwordmanager.R
-import com.ishant.passwordmanager.databinding.ActivityMainBinding
+import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
+import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 
 class PasswordActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: ActivityPasswordBinding
     private lateinit var toggle: ActionBarDrawerToggle
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = ActivityPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         setUpActionBar()
@@ -31,6 +33,11 @@ class PasswordActivity : AppCompatActivity() {
 
         val navController = Navigation.findNavController(this, R.id.fragment)
         binding.bottomNavigationView.setupWithNavController(navController)
+
+        binding.btnNewPassword.setOnClickListener {
+            val intent = Intent(this,CreateEditViewPasswordActivity::class.java)
+            startActivity(intent)
+        }
 
     }
 
@@ -63,6 +70,8 @@ class PasswordActivity : AppCompatActivity() {
             true
         }
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menu = menuInflater.inflate(R.menu.action_bar_menu,menu)
