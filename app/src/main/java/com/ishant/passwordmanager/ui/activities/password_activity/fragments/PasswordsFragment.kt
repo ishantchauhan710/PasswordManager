@@ -17,7 +17,7 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentPasswordsBinding.bind(view)
 
-        val adapter = PasswordAdapter()
+        val adapter = PasswordAdapter(requireContext())
 
         binding.rvPasswords.adapter = adapter
         binding.rvPasswords.layoutManager = LinearLayoutManager(requireContext())
