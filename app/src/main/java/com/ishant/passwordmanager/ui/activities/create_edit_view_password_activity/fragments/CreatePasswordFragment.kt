@@ -84,24 +84,30 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
         when (optionType) {
             0 -> {
                 sheetBinding.optionInputLayout.hint = "Username"
+                sheetBinding.optionInputLayout.helperText = "Eg. user710"
             }
             1 -> {
                 sheetBinding.optionInputLayout.hint = "Email"
+                sheetBinding.optionInputLayout.helperText = "Eg. user@example.com"
             }
             2 -> {
                 sheetBinding.optionInputLayout.hint = "Phone Number"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_PHONE or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
             }
             3 -> {
                 sheetBinding.optionInputLayout.hint = "Password"
                 sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = true
+                sheetBinding.optionInputLayout.helperText = "Always keep strong passwords"
             }
             4 -> {
                 sheetBinding.optionInputLayout.hint = "Website"
+                sheetBinding.optionInputLayout.helperText = "Eg. www.example.com"
             }
             5 -> {
                 sheetBinding.optionInputLayout.hint = "Notes"
                 sheetBinding.optionInputLayout.editText?.minLines = 3
+                sheetBinding.optionInputLayout.helperText = "You can add some notes or details here"
             }
         }
 

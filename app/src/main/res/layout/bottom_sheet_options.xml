@@ -29,6 +29,7 @@
         app:boxStrokeColor="#2F3061"
         app:hintTextColor="#2F3061"
         app:boxBackgroundColor="#ffffff"
+        app:helperText="Hello world"
         app:errorEnabled="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
