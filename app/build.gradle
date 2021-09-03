@@ -57,4 +57,7 @@ dependencies {
     // Rounded Bottom Sheet
     implementation 'com.github.Deishelon:RoundedBottomSheet:1.0.1'
 
+    // Material Search Bar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
+
 }

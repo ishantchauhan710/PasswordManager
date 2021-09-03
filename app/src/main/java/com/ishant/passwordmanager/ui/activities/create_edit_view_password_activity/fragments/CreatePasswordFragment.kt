@@ -1,35 +1,75 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
 import com.ishant.passwordmanager.R
+import com.ishant.passwordmanager.adapters.LogoCompanyChooserAdapter
 import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
 import com.ishant.passwordmanager.databinding.BottomSheetOptionsBinding
+import com.ishant.passwordmanager.databinding.CompanyChooserSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
-
-
+import com.ishant.passwordmanager.db.entities.AccountDetails
+import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.util.CompanyList
 
 
 class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
     private lateinit var binding: FragmentCreatePasswordBinding
+    private lateinit var adapter: PasswordAccountInfoAdapter
+
+    val accountDetailList = mutableListOf<AccountDetails>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCreatePasswordBinding.bind(view)
 
         val rvAccountDetails = binding.rvAccountDetails
-        val adapter = PasswordAccountInfoAdapter()
+        adapter = PasswordAccountInfoAdapter(accountDetailList)
         rvAccountDetails.adapter = adapter
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
+
+        binding.btnBack.setOnClickListener {
+            (activity as CreateEditViewPasswordActivity).finish()
+        }
+
+
+
+        binding.btnIcon.setOnClickListener {
+            val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
+            val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
+            iBottomSheetDialog.setContentView(sheetView)
+
+            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(sheetView)
+
+            val companyList = listOf<CompanyList>(
+                CompanyList(1,"Instagram",R.drawable.ig_logo),
+                CompanyList(2,"Facebook",R.drawable.ig_logo),
+                CompanyList(3,"Instagram",R.drawable.ig_logo),
+                CompanyList(4,"Facebook",R.drawable.ig_logo)
+            )
+            val companyAdapter = LogoCompanyChooserAdapter(companyList)
+            companySheetBinding.rvCompanyChooser.adapter = companyAdapter
+            companySheetBinding.rvCompanyChooser.layoutManager = LinearLayoutManager(requireContext())
+
+            iBottomSheetDialog.show()
+        }
+
+
+
 
         binding.btnNewEntry.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), it)
@@ -81,42 +121,49 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
         val sheetBinding: BottomSheetOptionsBinding = BottomSheetOptionsBinding.bind(sheetView)
 
+        var detailType = ""
+        var detailContent = ""
+
         when (optionType) {
             0 -> {
-                sheetBinding.optionInputLayout.hint = "Username"
+                detailType = "Username"
                 sheetBinding.optionInputLayout.helperText = "Eg. user710"
             }
             1 -> {
-                sheetBinding.optionInputLayout.hint = "Email"
+                detailType = "Email"
                 sheetBinding.optionInputLayout.helperText = "Eg. user@example.com"
             }
             2 -> {
-                sheetBinding.optionInputLayout.hint = "Phone Number"
+                detailType = "Phone Number"
                 sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_PHONE or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
                 sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
             }
             3 -> {
-                sheetBinding.optionInputLayout.hint = "Password"
+                detailType = "Password"
                 sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = true
                 sheetBinding.optionInputLayout.helperText = "Always keep strong passwords"
             }
             4 -> {
-                sheetBinding.optionInputLayout.hint = "Website"
+                detailType = "Website"
                 sheetBinding.optionInputLayout.helperText = "Eg. www.example.com"
             }
             5 -> {
-                sheetBinding.optionInputLayout.hint = "Notes"
+                detailType = "Notes"
                 sheetBinding.optionInputLayout.editText?.minLines = 3
                 sheetBinding.optionInputLayout.helperText = "You can add some notes or details here"
             }
         }
+
+        sheetBinding.optionInputLayout.hint = detailType
 
         mBottomSheetDialog.show()
 
         sheetBinding.btnAddOption.setOnClickListener {
             val validateMessage = validateInput(sheetBinding.optionInputLayout.editText?.text.toString(),optionType)
             if(validateMessage=="Validated") {
-                Toast.makeText(requireContext(),"Success",Toast.LENGTH_SHORT).show()
+                val accountDetailObj = AccountDetails(1,1,detailType,sheetBinding.optionInputLayout.editText?.text.toString())
+                accountDetailList.add(accountDetailObj)
+                adapter.notifyDataSetChanged()
                 mBottomSheetDialog.dismiss()
             } else {
                 sheetBinding.optionInputLayout.error = validateMessage

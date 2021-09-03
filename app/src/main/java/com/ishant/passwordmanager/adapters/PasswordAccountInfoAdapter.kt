@@ -9,20 +9,8 @@ import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.LayoutAccountInfoBinding
 import com.ishant.passwordmanager.db.entities.AccountDetails
 
-class PasswordAccountInfoAdapter: RecyclerView.Adapter<PasswordAccountInfoAdapter.PasswordAccountInfoAdapterViewHolder>() {
+class PasswordAccountInfoAdapter(private val accountDetails: MutableList<AccountDetails>): RecyclerView.Adapter<PasswordAccountInfoAdapter.PasswordAccountInfoAdapterViewHolder>() {
     inner class PasswordAccountInfoAdapterViewHolder(val binding: LayoutAccountInfoBinding): RecyclerView.ViewHolder(binding.root)
-
-    private val differCallback = object: DiffUtil.ItemCallback<AccountDetails>() {
-        override fun areItemsTheSame(oldItem: AccountDetails, newItem: AccountDetails): Boolean {
-            return oldItem.id == newItem.id
-        }
-
-        override fun areContentsTheSame(oldItem: AccountDetails, newItem: AccountDetails): Boolean {
-            return oldItem.hashCode() == newItem.hashCode()
-        }
-    }
-
-    val differ = AsyncListDiffer(this,differCallback)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -33,11 +21,11 @@ class PasswordAccountInfoAdapter: RecyclerView.Adapter<PasswordAccountInfoAdapte
     }
 
     override fun getItemCount(): Int {
-        return differ.currentList.size
+        return accountDetails.size
     }
 
     override fun onBindViewHolder(holder: PasswordAccountInfoAdapterViewHolder, position: Int) {
-        val detail = differ.currentList[position]
+        val detail = accountDetails[position]
         holder.binding.tvInfoType.text = detail.detailType
         holder.binding.tvInfoContent.text = detail.detailContent
 
@@ -45,13 +33,14 @@ class PasswordAccountInfoAdapter: RecyclerView.Adapter<PasswordAccountInfoAdapte
             "Username" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_username_info)
             "Email" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_mail_info)
             "Phone Number" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_phone_info)
-            "Password" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_password_change)
+            "Password" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_password_change_info)
             "Website" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_website_info)
-            "Note" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_note_info)
+            "Notes" -> holder.binding.ivInfoIcon.setImageResource(R.drawable.ic_note_info)
         }
 
         holder.binding.btnDeleteInfo.setOnClickListener {
-            differ.currentList.removeAt(holder.adapterPosition)
+            accountDetails.removeAt(holder.adapterPosition)
+            notifyDataSetChanged()
         }
 
     }
