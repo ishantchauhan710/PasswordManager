@@ -1,20 +1,15 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
-import android.graphics.Color
 import android.os.Bundle
 import android.text.InputType
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
-import android.widget.FrameLayout
+import android.view.View.OnTouchListener
 import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyChooserAdapter
 import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
@@ -23,7 +18,7 @@ import com.ishant.passwordmanager.databinding.CompanyChooserSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
 import com.ishant.passwordmanager.db.entities.AccountDetails
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
-import com.ishant.passwordmanager.util.CompanyList
+import com.ishant.passwordmanager.util.CompanyListData
 
 
 class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
@@ -49,23 +44,45 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
         binding.btnIcon.setOnClickListener {
+
+
             val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
             val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
             iBottomSheetDialog.setContentView(sheetView)
-
             val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(sheetView)
-
-            val companyList = listOf<CompanyList>(
-                CompanyList(1,"Instagram",R.drawable.ig_logo),
-                CompanyList(2,"Facebook",R.drawable.ig_logo),
-                CompanyList(3,"Instagram",R.drawable.ig_logo),
-                CompanyList(4,"Facebook",R.drawable.ig_logo)
-            )
+            val companyList = CompanyListData.companyListData
             val companyAdapter = LogoCompanyChooserAdapter(companyList)
             companySheetBinding.rvCompanyChooser.adapter = companyAdapter
             companySheetBinding.rvCompanyChooser.layoutManager = LinearLayoutManager(requireContext())
 
+            companySheetBinding.rvCompanyChooser.setOnTouchListener(OnTouchListener { v, event ->
+                v.parent.requestDisallowInterceptTouchEvent(true)
+                v.onTouchEvent(event)
+                true
+            })
+
+
             iBottomSheetDialog.show()
+
+
+
+/*
+            val bottomSheetView = LayoutInflater.from(requireContext()).inflate(
+                R.layout.company_chooser_sheet,
+                null,
+                false
+            )
+            val sheetBinding = CompanyChooserSheetBinding.bind(bottomSheetView)
+            val bottomSheetLayout = BottomSheetDialog(requireContext())
+            bottomSheetLayout.setContentView(bottomSheetView)
+            val companyList = CompanyListData.companyListData
+            val companyAdapter = LogoCompanyChooserAdapter(companyList)
+            sheetBinding.rvCompanyChooser.adapter = companyAdapter
+            sheetBinding.rvCompanyChooser.layoutManager = LinearLayoutManager(requireContext())
+            bottomSheetLayout.show()
+
+            */
+
         }
 
 
@@ -135,7 +152,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             2 -> {
                 detailType = "Phone Number"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_PHONE or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    InputType.TYPE_CLASS_PHONE or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
                 sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
             }
             3 -> {
@@ -159,9 +177,17 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
         mBottomSheetDialog.show()
 
         sheetBinding.btnAddOption.setOnClickListener {
-            val validateMessage = validateInput(sheetBinding.optionInputLayout.editText?.text.toString(),optionType)
+            val validateMessage = validateInput(
+                sheetBinding.optionInputLayout.editText?.text.toString(),
+                optionType
+            )
             if(validateMessage=="Validated") {
-                val accountDetailObj = AccountDetails(1,1,detailType,sheetBinding.optionInputLayout.editText?.text.toString())
+                val accountDetailObj = AccountDetails(
+                    1,
+                    1,
+                    detailType,
+                    sheetBinding.optionInputLayout.editText?.text.toString()
+                )
                 accountDetailList.add(accountDetailObj)
                 adapter.notifyDataSetChanged()
                 mBottomSheetDialog.dismiss()
@@ -172,11 +198,11 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
     }
 
-    private fun validateInput(input: String,type: Int): String {
+    private fun validateInput(input: String, type: Int): String {
         when (type) {
             0 -> {
                 // Validate for Username
-                if(nullCheckInput(input)) {
+                if (nullCheckInput(input)) {
                     return "Validated"
                 } else {
                     return "You must fill username"
@@ -184,8 +210,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             1 -> {
                 // Validate for Email
-                if(nullCheckInput(input)) {
-                    if(input.contains("@") && input.contains(".")) {
+                if (nullCheckInput(input)) {
+                    if (input.contains("@") && input.contains(".")) {
                         return "Validated"
                     } else {
                         return "Incorrect Email Format"
@@ -196,8 +222,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             2 -> {
                 // Validate for Phone Number
-                if(nullCheckInput(input)) {
-                    if(input.length>2) {
+                if (nullCheckInput(input)) {
+                    if (input.length > 2) {
                         return "Validated"
                     } else {
                         return "Phone number should be more than two digits"
@@ -208,7 +234,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             3 -> {
                 // Validate for Password
-                if(nullCheckInput(input)) {
+                if (nullCheckInput(input)) {
                     return "Validated"
                 } else {
                     return "Password cannot be blank"
@@ -216,8 +242,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             4 -> {
                 // Validate for Website
-                if(nullCheckInput(input)) {
-                    if(input.contains(".")) {
+                if (nullCheckInput(input)) {
+                    if (input.contains(".")) {
                         return "Validated"
                     } else {
                         return "Incorrect Website Format"
@@ -228,7 +254,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             5 -> {
                 // Validate for Note
-                if(nullCheckInput(input)) {
+                if (nullCheckInput(input)) {
                     return "Validated"
                 } else {
                     return "Note cannot be blank"
