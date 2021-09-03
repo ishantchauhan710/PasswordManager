@@ -32,7 +32,7 @@ class PasswordAccountInfoAdapter: RecyclerView.Adapter<PasswordAccountInfoAdapte
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return 20
     }
 
     override fun onBindViewHolder(holder: PasswordAccountInfoAdapterViewHolder, position: Int) {

@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="#ffffff">
 
     <ImageView
         android:id="@+id/ivInfoIcon"
@@ -39,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="ishantchauhan@sample.com"
-            android:textColor="#838d95"
+            android:textColor="#7f7d88"
             android:textSize="18sp" />
 
 
@@ -54,7 +55,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:tint="#838d95" />
+        app:tint="#7f7d88" />
 
     <LinearLayout
         android:layout_width="match_parent"
