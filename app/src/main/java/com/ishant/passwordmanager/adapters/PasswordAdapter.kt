@@ -2,8 +2,6 @@ package com.ishant.passwordmanager.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.MenuItem
-import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -12,18 +10,18 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.PasswordBinding
-import com.ishant.passwordmanager.db.entities.Password
+import com.ishant.passwordmanager.db.entities.Entry
 
 class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
     inner class PasswordAdapterViewHolder(val binding: PasswordBinding): RecyclerView.ViewHolder(binding.root)
 
 
-    private val differCallback = object: DiffUtil.ItemCallback<Password>() {
-        override fun areItemsTheSame(oldItem: Password, newItem: Password): Boolean {
+    private val differCallback = object: DiffUtil.ItemCallback<Entry>() {
+        override fun areItemsTheSame(oldItem: Entry, newItem: Entry): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Password, newItem: Password): Boolean {
+        override fun areContentsTheSame(oldItem: Entry, newItem: Entry): Boolean {
             return oldItem.hashCode() == newItem.hashCode()
         }
     }

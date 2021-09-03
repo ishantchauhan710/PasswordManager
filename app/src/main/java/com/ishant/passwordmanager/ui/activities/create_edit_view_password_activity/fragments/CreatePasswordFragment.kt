@@ -15,7 +15,7 @@ import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
 import com.ishant.passwordmanager.databinding.BottomSheetOptionsBinding
 import com.ishant.passwordmanager.databinding.CompanyChooserSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
-import com.ishant.passwordmanager.db.entities.AccountDetails
+import com.ishant.passwordmanager.db.entities.EntryDetails
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.util.CompanyListData
 
@@ -25,7 +25,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
     private lateinit var binding: FragmentCreatePasswordBinding
     private lateinit var adapter: PasswordAccountInfoAdapter
 
-    val accountDetailList = mutableListOf<AccountDetails>()
+    val accountDetailList = mutableListOf<EntryDetails>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -187,7 +187,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 optionType
             )
             if(validateMessage=="Validated") {
-                val accountDetailObj = AccountDetails(
+                val accountDetailObj = EntryDetails(
                     1,
                     1,
                     detailType,
