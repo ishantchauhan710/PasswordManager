@@ -5,6 +5,7 @@ import com.ishant.passwordmanager.R
 object CompanyListData {
 
     val companyListData = listOf<CompanyList>(
+    CompanyList(0,"General Account",R.drawable.cl_general_account),
     CompanyList(1,"Amazon",R.drawable.cl_amazon),
     CompanyList(2,"Apple iCloud",R.drawable.cl_icloud),
     CompanyList(3,"Canva",R.drawable.cl_canva),

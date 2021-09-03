@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.LayoutAccountInfoBinding
-import com.ishant.passwordmanager.db.entities.EntryDetails
+import com.ishant.passwordmanager.db.entities.EntryDetail
 
-class PasswordAccountInfoAdapter(private val accountDetails: MutableList<EntryDetails>): RecyclerView.Adapter<PasswordAccountInfoAdapter.PasswordAccountInfoAdapterViewHolder>() {
+class PasswordAccountInfoAdapter(private val accountDetails: MutableList<EntryDetail>): RecyclerView.Adapter<PasswordAccountInfoAdapter.PasswordAccountInfoAdapterViewHolder>() {
     inner class PasswordAccountInfoAdapterViewHolder(val binding: LayoutAccountInfoBinding): RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(

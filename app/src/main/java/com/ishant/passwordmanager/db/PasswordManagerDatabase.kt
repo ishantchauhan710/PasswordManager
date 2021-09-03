@@ -5,10 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.ishant.passwordmanager.db.entities.Entry
-import com.ishant.passwordmanager.db.entities.EntryDetails
+import com.ishant.passwordmanager.db.entities.EntryDetail
 
 @Database(
-    entities = [Entry::class,EntryDetails::class],
+    entities = [Entry::class,EntryDetail::class],
     version = 1
 )
 abstract class PasswordManagerDatabase: RoomDatabase() {

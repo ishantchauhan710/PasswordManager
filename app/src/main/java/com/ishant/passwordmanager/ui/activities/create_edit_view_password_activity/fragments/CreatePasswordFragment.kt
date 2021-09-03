@@ -9,38 +9,48 @@ import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyChooserAdapter
 import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
 import com.ishant.passwordmanager.databinding.BottomSheetOptionsBinding
 import com.ishant.passwordmanager.databinding.CompanyChooserSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
-import com.ishant.passwordmanager.db.entities.EntryDetails
+import com.ishant.passwordmanager.db.entities.Entry
+import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.CompanyListData
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 
 class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
     private lateinit var binding: FragmentCreatePasswordBinding
     private lateinit var adapter: PasswordAccountInfoAdapter
+    private lateinit var viewModel: CreateEditViewPasswordViewModel
 
-    val accountDetailList = mutableListOf<EntryDetails>()
+    val accountDetailList = mutableListOf<EntryDetail>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCreatePasswordBinding.bind(view)
+        viewModel = (activity as CreateEditViewPasswordActivity).viewModel
 
         val rvAccountDetails = binding.rvAccountDetails
         adapter = PasswordAccountInfoAdapter(accountDetailList)
         rvAccountDetails.adapter = adapter
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
 
+        val category = "Social"
+        val companyIcon = R.drawable.cl_general_account
+
         binding.btnBack.setOnClickListener {
             (activity as CreateEditViewPasswordActivity).finish()
         }
-
-
 
         binding.btnIcon.setOnClickListener {
 
@@ -66,31 +76,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
             iBottomSheetDialog.show()
 
-
-
-
-
-/*
-            val bottomSheetView = LayoutInflater.from(requireContext()).inflate(
-                R.layout.company_chooser_sheet,
-                null,
-                false
-            )
-            val sheetBinding = CompanyChooserSheetBinding.bind(bottomSheetView)
-            val bottomSheetLayout = BottomSheetDialog(requireContext())
-            bottomSheetLayout.setContentView(bottomSheetView)
-            val companyList = CompanyListData.companyListData
-            val companyAdapter = LogoCompanyChooserAdapter(companyList)
-            sheetBinding.rvCompanyChooser.adapter = companyAdapter
-            sheetBinding.rvCompanyChooser.layoutManager = LinearLayoutManager(requireContext())
-            bottomSheetLayout.show()
-
-            */
-
         }
-
-
-
 
         binding.btnNewEntry.setOnClickListener {
             val popupMenu = PopupMenu(requireContext(), it)
@@ -131,7 +117,47 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
         }
+
+        binding.btnSave.setOnClickListener {
+            val entryTitle = binding.entryTitleLayout.editText?.text.toString()
+            val entryCategory = category
+            val entryIcon = companyIcon
+            val entryDetailsList = accountDetailList
+
+            if(entryTitle.isNotEmpty() || entryTitle.isNotBlank()) {
+                if(entryCategory.isNotEmpty() || entryCategory.isNotBlank()) {
+                    if(entryDetailsList.isNotEmpty()) {
+                        CoroutineScope(Dispatchers.IO).launch {
+
+                            val entry = Entry(0,entryTitle,entryCategory,entryIcon)
+                            val id = viewModel.upsertEntry(entry)
+
+                            for(entryDetail in entryDetailsList) {
+                                val entryDetailObject = EntryDetail(0,id,entryDetail.detailType,entryDetail.detailContent)
+                                viewModel.upsertEntryDetail(entryDetail)
+                            }
+
+                            withContext(Dispatchers.Main) {
+                                Snackbar.make(view,"Success",Snackbar.LENGTH_SHORT).show()
+                            }
+
+                        }
+                    } else {
+                        Snackbar.make(view,"You must add at least one detail about your account",Snackbar.LENGTH_SHORT).show()
+                    }
+                } else {
+                    Snackbar.make(view,"You must select a category",Snackbar.LENGTH_SHORT).show()
+                }
+            } else {
+                Snackbar.make(view,"Title cannot be blank",Snackbar.LENGTH_SHORT).show()
+            }
+
+
+        }
+
     }
+
+
 
 
     private fun showBottomSheet(optionType: Int) {
@@ -187,7 +213,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 optionType
             )
             if(validateMessage=="Validated") {
-                val accountDetailObj = EntryDetails(
+                val accountDetailObj = EntryDetail(
                     1,
                     1,
                     detailType,

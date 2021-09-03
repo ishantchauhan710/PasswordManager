@@ -8,6 +8,6 @@ data class Entry (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,
-    val category: Int,
+    val category: String,
     val icon: Int
 )
