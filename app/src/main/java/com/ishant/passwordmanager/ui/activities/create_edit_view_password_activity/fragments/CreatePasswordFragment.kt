@@ -2,14 +2,13 @@ package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activ
 
 import android.os.Bundle
 import android.text.InputType
-import android.view.LayoutInflater
+import android.text.InputType.TYPE_CLASS_TEXT
 import android.view.View
 import android.view.View.OnTouchListener
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyChooserAdapter
 import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
@@ -49,7 +48,9 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
             val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
             iBottomSheetDialog.setContentView(sheetView)
-            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(sheetView)
+            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(
+                sheetView
+            )
             val companyList = CompanyListData.companyListData
             val companyAdapter = LogoCompanyChooserAdapter(companyList)
             companySheetBinding.rvCompanyChooser.adapter = companyAdapter
@@ -172,6 +173,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 detailType = "Notes"
                 sheetBinding.optionInputLayout.editText?.minLines = 3
                 sheetBinding.optionInputLayout.helperText = "You can add some notes or details here"
+                sheetBinding.optionInputLayout.editText?.inputType = TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
             }
         }
 
