@@ -58,11 +58,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             companySheetBinding.rvCompanyChooser.setOnTouchListener(OnTouchListener { v, event ->
                 v.parent.requestDisallowInterceptTouchEvent(true)
                 v.onTouchEvent(event)
+
                 true
             })
 
 
             iBottomSheetDialog.show()
+
+
 
 
 
