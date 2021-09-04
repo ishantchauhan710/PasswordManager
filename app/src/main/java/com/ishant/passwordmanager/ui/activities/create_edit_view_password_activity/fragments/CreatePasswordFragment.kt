@@ -155,7 +155,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                             }
 
                             withContext(Dispatchers.Main) {
-                                Snackbar.make(view,"Success",Snackbar.LENGTH_SHORT).show()
+                                // Snackbar.make(view,"Success",Snackbar.LENGTH_SHORT).show()
+                                (activity as CreateEditViewPasswordActivity).finish()
                             }
 
                         }
