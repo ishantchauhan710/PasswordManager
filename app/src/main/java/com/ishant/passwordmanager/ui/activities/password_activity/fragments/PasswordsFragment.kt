@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.ui.activities.password_activity.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -37,22 +38,12 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
             adapter.differ.submitList(it)
         })
 
-
-/*
-
-            var i = 0
-           while(i<100) {
-
-               CoroutineScope(Dispatchers.IO).launch {
-                   delay(1000)
-                   withContext(Dispatchers.Main) {
-                       Toast.makeText(requireContext(),"Size: ${adapter.differ.currentList.size}",Toast.LENGTH_SHORT).show()
-                   }
-                }
-            i++
+        adapter.setOnItemClickListener {
+            val command = "view"
+            val intent = Intent(requireContext(),CreateEditViewPasswordActivity::class.java)
+            intent.putExtra("command",command)
+            startActivity(intent)
         }
-
-*/
 
 
     }

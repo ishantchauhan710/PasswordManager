@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.ActivityCreateEditViewPasswordBinding
 import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
@@ -31,6 +32,11 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
 
+        val command = intent?.getStringExtra("command")
+        if(command=="view") {
+            findNavController(R.id.fragment2).popBackStack()
+            findNavController(R.id.fragment2).navigate(R.id.viewPasswordsFragment)
+        }
 
 
 

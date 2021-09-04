@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.PasswordBinding
 import com.ishant.passwordmanager.db.entities.Entry
+import com.ishant.passwordmanager.util.CompanyList
 
 class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
     inner class PasswordAdapterViewHolder(val binding: PasswordBinding): RecyclerView.ViewHolder(binding.root)
@@ -37,6 +38,10 @@ class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapt
         return differ.currentList.size
     }
 
+
+    private var onItemClickListener: ((Entry) -> Unit)? = null
+
+
     override fun onBindViewHolder(holder: PasswordAdapterViewHolder, position: Int) {
 
         val entry = differ.currentList[position]
@@ -47,21 +52,33 @@ class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapt
 
         holder.binding.ivOptions.setOnClickListener {
 
-            val popupMenu = PopupMenu(mContext,it)
-            popupMenu.menuInflater.inflate(R.menu.options_menu,popupMenu.menu)
+            val popupMenu = PopupMenu(mContext, it)
+            popupMenu.menuInflater.inflate(R.menu.options_menu, popupMenu.menu)
             popupMenu.show()
 
             popupMenu.setOnMenuItemClickListener { menuItem ->
-               when(menuItem.itemId) {
-                   R.id.miEdit -> Toast.makeText(mContext,"Edit",Toast.LENGTH_SHORT).show()
-                   R.id.miDelete -> Toast.makeText(mContext,"Edit",Toast.LENGTH_SHORT).show()
-                   R.id.miFav -> Toast.makeText(mContext,"Add to Favourites",Toast.LENGTH_SHORT).show()
-               }
+                when (menuItem.itemId) {
+                    R.id.miEdit -> Toast.makeText(mContext, "Edit", Toast.LENGTH_SHORT).show()
+                    R.id.miDelete -> Toast.makeText(mContext, "Edit", Toast.LENGTH_SHORT).show()
+                    R.id.miFav -> Toast.makeText(mContext, "Add to Favourites", Toast.LENGTH_SHORT)
+                        .show()
+                }
                 popupMenu.dismiss()
                 true
+            }
         }
 
+        holder.binding.root.setOnClickListener {
+            onItemClickListener?.let {
+                it(entry)
+            }
         }
+
 
     }
+
+    fun setOnItemClickListener(listener: (Entry) -> Unit) {
+        onItemClickListener = listener
+    }
+
 }
