@@ -5,24 +5,28 @@ import com.tozny.crypto.android.AesCbcWithIntegrity.*
 
 class EncryptionDecryption {
 
-    fun encrypt(data: String, emdPasswordArg: String, eedPasswordArg: String): EncryptedObject {
-        val emdSalt = saltString(generateSalt())
-        val emdKey = generateKeyFromPassword(emdPasswordArg,emdSalt)
-        val emdEncryptedString = encrypt(data, emdKey).toString()
-        val eedSalt = saltString(generateSalt())
-        val eedKey = generateKeyFromPassword(eedPasswordArg,eedSalt)
-        val eedEncryptedString = encrypt(emdEncryptedString, eedKey).toString()
-        return EncryptedObject(emdSalt,eedSalt, eedEncryptedString)
-    }
+    companion object {
 
-    fun decrypt(encryptedData: String, emdPasswordArg: String, eedPasswordArg: String, emdSaltArg: String, eedSaltArg: String): String {
-        val eedDecryptKey = generateKeyFromPassword(eedPasswordArg,eedSaltArg)
-        val decryptedEncryptedString = decryptString(CipherTextIvMac(encryptedData),eedDecryptKey)
-        val emdDecryptKey = generateKeyFromPassword(emdPasswordArg,emdSaltArg)
-        val decryptedString = decryptString(CipherTextIvMac(decryptedEncryptedString),emdDecryptKey)
-        return decryptedString
-    }
+        fun encrypt(data: String, emdPasswordArg: String, eedPasswordArg: String): EncryptedObject {
+            val emdSalt = saltString(generateSalt())
+            val emdKey = generateKeyFromPassword(emdPasswordArg,emdSalt)
+            val emdEncryptedString = encrypt(data, emdKey).toString()
+            val eedSalt = saltString(generateSalt())
+            val eedKey = generateKeyFromPassword(eedPasswordArg,eedSalt)
+            val eedEncryptedString = encrypt(emdEncryptedString, eedKey).toString()
+            return EncryptedObject(emdSalt,eedSalt, eedEncryptedString)
+        }
 
+        fun decrypt(encryptedData: String, emdPasswordArg: String, eedPasswordArg: String, emdSaltArg: String, eedSaltArg: String): String {
+            val eedDecryptKey = generateKeyFromPassword(eedPasswordArg,eedSaltArg)
+            val decryptedEncryptedString = decryptString(CipherTextIvMac(encryptedData),eedDecryptKey)
+            val emdDecryptKey = generateKeyFromPassword(emdPasswordArg,emdSaltArg)
+            val decryptedString = decryptString(CipherTextIvMac(decryptedEncryptedString),emdDecryptKey)
+            return decryptedString
+        }
+
+
+    }
 
 }
 

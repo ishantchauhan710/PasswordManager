@@ -20,15 +20,16 @@ import com.ishant.passwordmanager.adapters.PasswordAccountInfoAdapter
 import com.ishant.passwordmanager.databinding.BottomSheetOptionsBinding
 import com.ishant.passwordmanager.databinding.CompanyChooserSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
+import com.ishant.passwordmanager.db.entities.EncryptedSalt
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
+import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.encrypt
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.CompanyListData
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
+import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
+import kotlinx.coroutines.*
 
 
 class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
@@ -144,22 +145,40 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             if(entryTitle.isNotEmpty() || entryTitle.isNotBlank()) {
                 if(entryCategory.isNotEmpty() || entryCategory.isNotBlank()) {
                     if(entryDetailsList.isNotEmpty()) {
-                        CoroutineScope(Dispatchers.IO).launch {
 
-                            val entry = Entry(0,entryTitle,entryCategory,entryIcon)
-                            val id = viewModel.upsertEntry(entry)
+                            val password1 = PASSWORD1
+                            val password2 = PASSWORD2
 
-                            for(entryDetail in entryDetailsList) {
-                                val entryDetailObject = EntryDetail(0,id,entryDetail.detailType,entryDetail.detailContent)
-                                viewModel.upsertEntryDetail(entryDetail)
+                            CoroutineScope(Dispatchers.IO).launch {
+
+                                val entry = Entry(0,entryTitle,entryCategory,entryIcon)
+
+                                val id = async { viewModel.upsertEntry(entry) }.await()
+
+
+
+                                for(entryDetail in entryDetailsList) {
+
+                                    val encryptedObject = encrypt(entryDetail.detailContent,password1,password2)
+                                    val encryptedData = encryptedObject.encryptedData
+                                    val emdSalt = encryptedObject.emdSalt
+                                    val eedSalt = encryptedObject.eedSalt
+
+                                    entryDetail.id = 0
+                                    entryDetail.entryId = id
+                                    entryDetail.detailContent = encryptedData
+
+                                    val entryDetailId = async { viewModel.upsertEntryDetail(entryDetail) }.await()
+                                    val saltObject = EncryptedSalt(0,entryDetailId,emdSalt,eedSalt)
+                                    async { viewModel.upsertEncryptedSalt(saltObject) }.await()
                             }
 
-                            withContext(Dispatchers.Main) {
-                                // Snackbar.make(view,"Success",Snackbar.LENGTH_SHORT).show()
-                                (activity as CreateEditViewPasswordActivity).finish()
+                               withContext(Dispatchers.Main) {
+                                   (activity as CreateEditViewPasswordActivity).finish()
+                               }
+
                             }
 
-                        }
                     } else {
                         Snackbar.make(view,"You must add at least one detail about your account",Snackbar.LENGTH_SHORT).show()
                     }

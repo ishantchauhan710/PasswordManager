@@ -6,8 +6,8 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "entry_details")
 data class EntryDetail (
     @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val entryId: Long,
+    var id: Int,
+    var entryId: Long,
     val detailType: String,
-    val detailContent: String
+    var detailContent: String
 )
