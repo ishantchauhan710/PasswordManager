@@ -27,7 +27,7 @@ abstract class PasswordManagerDatabase: RoomDatabase() {
             Room.databaseBuilder(
                 context.applicationContext,
                 PasswordManagerDatabase::class.java,
-                "article_db.db"
+                "password_manager_database.db"
             ).build()
     }
 }
