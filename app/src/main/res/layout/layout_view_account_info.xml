@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="10dp"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+
+
+    android:paddingBottom="10dp"
+    android:background="#ffffff">
+
+    <ImageView
+        android:id="@+id/ivInfoIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_website_info"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        app:layout_constraintEnd_toStartOf="@id/btnPasswordToggleInfo"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/ivInfoIcon"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/tvInfoType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Email"
+            android:textColor="#2a2a2a"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvInfoContent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ishantchauhan@sample.com"
+            android:textColor="#7f7d88"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/btnPasswordToggleInfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/ic_visibility_off"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toStartOf="@id/btnCopyInfo"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#7f7d88" />
+
+    <ImageView
+        android:id="@+id/btnCopyInfo"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/ic_copy"
+        app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:tint="#7f7d88" />
+<!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"
+        android:background="#B6B6B6"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+-->
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
