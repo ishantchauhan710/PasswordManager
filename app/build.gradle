@@ -65,7 +65,7 @@ dependencies {
     implementation 'com.github.mancj:MaterialSearchBar:0.8.5'
 
     // Architectural Components
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
     // Room
     implementation "androidx.room:room-runtime:2.3.0"

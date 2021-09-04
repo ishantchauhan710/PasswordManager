@@ -34,12 +34,19 @@ class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapt
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return differ.currentList.size
     }
 
     override fun onBindViewHolder(holder: PasswordAdapterViewHolder, position: Int) {
 
+        val entry = differ.currentList[position]
+
+        holder.binding.tvPasswordTitle.text = entry.title
+        holder.binding.tvPasswordInfo.text = entry.category
+        holder.binding.ivPasswordIcon.setImageResource(entry.icon)
+
         holder.binding.ivOptions.setOnClickListener {
+
             val popupMenu = PopupMenu(mContext,it)
             popupMenu.menuInflater.inflate(R.menu.options_menu,popupMenu.menu)
             popupMenu.show()

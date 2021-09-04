@@ -7,7 +7,7 @@ import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import kotlinx.coroutines.launch
 
-class CreateEditViewPasswordViewModel(val repository: PasswordManagerRepository): ViewModel() {
+class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRepository): ViewModel() {
 
     suspend fun upsertEntry(entry: Entry): Long = repository.upsertEntry(entry)
 

@@ -10,21 +10,34 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
+import com.ishant.passwordmanager.db.PasswordManagerDatabase
+import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.ui.factories.CreateEditViewPasswordViewModelProviderFactory
+import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 
 class PasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityPasswordBinding
     private lateinit var toggle: ActionBarDrawerToggle
+    lateinit var viewModel: CreateEditViewPasswordViewModel
 
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val database = PasswordManagerDatabase(this)
+        val repository = PasswordManagerRepository(database)
+        val factory = CreateEditViewPasswordViewModelProviderFactory(repository)
+        viewModel = ViewModelProvider(this,factory).get(CreateEditViewPasswordViewModel::class.java)
+
+
         binding = ActivityPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 

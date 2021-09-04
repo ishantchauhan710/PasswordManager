@@ -3,12 +3,16 @@ package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activ
 import android.os.Bundle
 import android.text.InputType
 import android.text.InputType.TYPE_CLASS_TEXT
+import android.view.LayoutInflater
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
+import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyChooserAdapter
@@ -31,26 +35,28 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
     private lateinit var binding: FragmentCreatePasswordBinding
     private lateinit var adapter: PasswordAccountInfoAdapter
-    private lateinit var viewModel: CreateEditViewPasswordViewModel
 
     val accountDetailList = mutableListOf<EntryDetail>()
+    lateinit var viewModel: CreateEditViewPasswordViewModel
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCreatePasswordBinding.bind(view)
-        viewModel = (activity as CreateEditViewPasswordActivity).viewModel
 
         val rvAccountDetails = binding.rvAccountDetails
         adapter = PasswordAccountInfoAdapter(accountDetailList)
         rvAccountDetails.adapter = adapter
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
 
-        val category = "Social"
-        val companyIcon = R.drawable.cl_general_account
+
+
+        var companyIcon = R.drawable.cl_general_account
 
         binding.btnBack.setOnClickListener {
             (activity as CreateEditViewPasswordActivity).finish()
         }
+
+        viewModel = (activity as CreateEditViewPasswordActivity).viewModel
 
         binding.btnIcon.setOnClickListener {
 
@@ -75,6 +81,11 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
             iBottomSheetDialog.show()
+
+            companyAdapter.setOnItemClickListener {
+                companyIcon = it.companyIcon
+                iBottomSheetDialog.dismiss()
+            }
 
         }
 
@@ -118,10 +129,16 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
         }
 
+
         binding.btnSave.setOnClickListener {
             val entryTitle = binding.entryTitleLayout.editText?.text.toString()
-            val entryCategory = category
+
+            val entryCategory: String = (binding.categoryChipGroup.children.toList().filter {
+                (it as Chip).isChecked
+            }[0] as Chip).text.toString()
+
             val entryIcon = companyIcon
+
             val entryDetailsList = accountDetailList
 
             if(entryTitle.isNotEmpty() || entryTitle.isNotBlank()) {
