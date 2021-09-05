@@ -10,5 +10,6 @@ data class Entry (
     val id: Int,
     val title: String,
     val category: String,
-    val icon: Int
+    val icon: Int,
+    val favourite: Int
 ): Serializable

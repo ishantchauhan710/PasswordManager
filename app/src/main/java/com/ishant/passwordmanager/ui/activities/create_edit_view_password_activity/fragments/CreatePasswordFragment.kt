@@ -183,7 +183,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                             CoroutineScope(Dispatchers.IO).launch {
 
-                                val entry = Entry(0, entryTitle, entryCategory, entryIcon)
+                                val entry = Entry(0, entryTitle, entryCategory, entryIcon,0)
 
                                 val id = async { viewModel.upsertEntry(entry) }.await()
 

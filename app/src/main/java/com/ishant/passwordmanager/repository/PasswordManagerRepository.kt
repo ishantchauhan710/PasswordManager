@@ -1,5 +1,7 @@
 package com.ishant.passwordmanager.repository
 
+import androidx.lifecycle.LiveData
+import androidx.room.Query
 import com.ishant.passwordmanager.db.PasswordManagerDatabase
 import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
@@ -11,6 +13,12 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
     suspend fun deleteEntry(entry: Entry) = db.getPasswordManagerDao().deleteEntry(entry)
 
     fun getAllEntries() = db.getPasswordManagerDao().getAllEntries()
+
+    fun getAllFavouriteEntries() = db.getPasswordManagerDao().getAllFavouriteEntries()
+
+    suspend fun setFavouriteEntry(isFavourite: Int, id: Int) = db.getPasswordManagerDao().setFavouriteEntry(isFavourite,id)
+
+
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().upsertEntryDetail(entryDetail)
 

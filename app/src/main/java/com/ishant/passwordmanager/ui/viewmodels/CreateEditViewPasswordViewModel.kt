@@ -18,6 +18,13 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
 
     fun getAllEntries() = repository.getAllEntries()
 
+    fun getAllFavouriteEntries() = repository.getAllFavouriteEntries()
+
+    suspend fun setFavouriteEntry(isFavourite: Int, id: Int) = viewModelScope.launch {
+        repository.setFavouriteEntry(isFavourite,id)
+    }
+
+
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = repository.upsertEntryDetail(entryDetail)
 
 

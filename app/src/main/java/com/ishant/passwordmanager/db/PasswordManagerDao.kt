@@ -18,6 +18,15 @@ interface PasswordManagerDao {
     @Query("SELECT * FROM entry")
     fun getAllEntries(): LiveData<List<Entry>>
 
+    @Query("SELECT * FROM entry WHERE favourite = 1")
+    fun getAllFavouriteEntries(): LiveData<List<Entry>>
+
+    @Query("UPDATE entry SET favourite = :isFavourite WHERE id = :id")
+    suspend fun setFavouriteEntry(isFavourite: Int, id: Int)
+
+
+
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertEntryDetail(entryDetail: EntryDetail): Long
 
@@ -35,11 +44,6 @@ interface PasswordManagerDao {
 
     @Query("SELECT * FROM keys WHERE entryDetailId = :id")
     fun getAllEncryptedKeys(id: Int): LiveData<List<EncryptedKey>>
-
-
-
-
-
 
 
 }
