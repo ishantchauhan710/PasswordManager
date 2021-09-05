@@ -3,6 +3,7 @@ package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activ
 import android.os.Bundle
 import android.text.InputType
 import android.text.InputType.TYPE_CLASS_TEXT
+import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
 import android.widget.PopupMenu
@@ -63,28 +64,18 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
             val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
             iBottomSheetDialog.setContentView(sheetView)
-            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(
-                sheetView
-            )
+            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(sheetView)
             val companyList = CompanyListData.companyListData
             val companyAdapter = LogoCompanyChooserAdapter(companyList)
             companySheetBinding.rvCompanyChooser.adapter = companyAdapter
             companySheetBinding.rvCompanyChooser.layoutManager = LinearLayoutManager(requireContext())
-
-            companySheetBinding.rvCompanyChooser.setOnTouchListener(OnTouchListener { v, event ->
-                v.parent.requestDisallowInterceptTouchEvent(true)
-                v.onTouchEvent(event)
-
-                true
-            })
-
-
+            companySheetBinding.rvCompanyChooser.isNestedScrollingEnabled = true;
             iBottomSheetDialog.show()
-
             companyAdapter.setOnItemClickListener {
                 companyIcon = it.companyIcon
                 iBottomSheetDialog.dismiss()
             }
+
 
         }
 
@@ -129,6 +120,9 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
         binding.btnSave.setOnClickListener {
+
+
+
             val entryTitle = binding.entryTitleLayout.editText?.text.toString()
 
             val entryCategory: String = (binding.categoryChipGroup.children.toList().filter {
@@ -148,7 +142,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                             CoroutineScope(Dispatchers.IO).launch {
 
-                                val entry = Entry(0,entryTitle,entryCategory,entryIcon)
+                                val entry = Entry(0, entryTitle, entryCategory, entryIcon)
 
                                 val id = async { viewModel.upsertEntry(entry) }.await()
 
@@ -156,7 +150,11 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                                 for(entryDetail in entryDetailsList) {
 
-                                    val encryptedObject = encrypt(entryDetail.detailContent,password1,password2)
+                                    val encryptedObject = encrypt(
+                                        entryDetail.detailContent,
+                                        password1,
+                                        password2
+                                    )
                                     val encryptedData = encryptedObject.encryptedData
                                     val emdKey = encryptedObject.key1
                                     val eedKey = encryptedObject.key2
@@ -165,8 +163,10 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                                     entryDetail.entryId = id
                                     entryDetail.detailContent = encryptedData
 
-                                    val entryDetailId = async { viewModel.upsertEntryDetail(entryDetail) }.await()
-                                    val saltObject = EncryptedKey(0,entryDetailId,emdKey,eedKey)
+                                    val entryDetailId = async { viewModel.upsertEntryDetail(
+                                        entryDetail
+                                    ) }.await()
+                                    val saltObject = EncryptedKey(0, entryDetailId, emdKey, eedKey)
                                     async { viewModel.upsertEncryptedKey(saltObject) }.await()
                             }
 
@@ -177,13 +177,17 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                             }
 
                     } else {
-                        Snackbar.make(view,"You must add at least one detail about your account",Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            view,
+                            "You must add at least one detail about your account",
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                     }
                 } else {
-                    Snackbar.make(view,"You must select a category",Snackbar.LENGTH_SHORT).show()
+                    Snackbar.make(view, "You must select a category", Snackbar.LENGTH_SHORT).show()
                 }
             } else {
-                Snackbar.make(view,"Title cannot be blank",Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(view, "Title cannot be blank", Snackbar.LENGTH_SHORT).show()
             }
 
 
@@ -233,7 +237,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 detailType = "Notes"
                 sheetBinding.optionInputLayout.editText?.minLines = 3
                 sheetBinding.optionInputLayout.helperText = "You can add some notes or details here"
-                sheetBinding.optionInputLayout.editText?.inputType = TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
             }
         }
 
