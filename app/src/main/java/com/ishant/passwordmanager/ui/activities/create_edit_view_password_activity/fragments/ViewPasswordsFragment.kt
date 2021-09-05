@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyViewerAdapter
 import com.ishant.passwordmanager.databinding.FragmentViewPasswordsBinding
-import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import kotlinx.android.synthetic.main.fragment_view_passwords.view.*
 
 
 class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
@@ -27,8 +27,21 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
 
         val data = args.data
 
-        val entryDetailList = mutableListOf<EntryDetail>()
         val viewModel = (activity as CreateEditViewPasswordActivity).viewModel
+
+
+        binding.ivCompanyLogo.setImageResource(data.icon)
+        binding.tvCompanyName.text = data.title
+        binding.tvCategory.text = data.category
+        when(data.category) {
+            "Social" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_social)
+            "Mails" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_mail)
+            "Cards" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_card)
+            "Work" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_work)
+            "Other" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_others)
+        }
+
+
 
         val entryDetailAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner)
         binding.rvAccountDetails.apply {
@@ -36,7 +49,9 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
             layoutManager = LinearLayoutManager(requireContext())
         }
 
-            viewModel.getAllEntryDetails(data.toInt()).observe(viewLifecycleOwner, Observer {
+
+
+            viewModel.getAllEntryDetails(data.id).observe(viewLifecycleOwner, Observer {
                 entryDetailAdapter.differ.submitList(it)
             })
 

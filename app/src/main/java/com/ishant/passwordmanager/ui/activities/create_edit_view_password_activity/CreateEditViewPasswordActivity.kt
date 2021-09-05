@@ -35,13 +35,13 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         command = intent?.getStringExtra("command").toString()
-        val data = intent?.getIntExtra("data",7777777)
+        val data = intent?.getSerializableExtra("data")
 
 
 
         if(command=="view") {
             val bundle = Bundle().apply {
-                putInt("data",data!!)
+                putSerializable("data",data)
             }
             findNavController(R.id.fragment2).popBackStack()
             findNavController(R.id.fragment2).navigate(R.id.viewPasswordsFragment,bundle)

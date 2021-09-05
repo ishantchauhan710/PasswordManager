@@ -2,6 +2,7 @@ package com.ishant.passwordmanager.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity(tableName = "entry")
 data class Entry (
@@ -10,4 +11,4 @@ data class Entry (
     val title: String,
     val category: String,
     val icon: Int
-)
+): Serializable

@@ -43,7 +43,7 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
             val command = "view"
             val intent = Intent(requireContext(),CreateEditViewPasswordActivity::class.java)
             intent.putExtra("command",command)
-            intent.putExtra("data",it.id)
+            intent.putExtra("data",it)
             //Toast.makeText(requireContext(),"Id: ${it.id}",Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }

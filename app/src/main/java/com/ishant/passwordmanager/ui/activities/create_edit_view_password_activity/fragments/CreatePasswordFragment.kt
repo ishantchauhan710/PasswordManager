@@ -125,7 +125,6 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 true
             }
 
-
         }
 
 
