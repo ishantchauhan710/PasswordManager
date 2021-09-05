@@ -3,12 +3,13 @@ package com.ishant.passwordmanager.adapters
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.content.Context.CLIPBOARD_SERVICE
 import android.text.InputType
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewGroup.MarginLayoutParams
 import android.widget.ImageView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -23,7 +24,6 @@ import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.decryp
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
-import kotlin.coroutines.coroutineContext
 
 
 class LogoCompanyViewerAdapter(
@@ -84,7 +84,10 @@ class LogoCompanyViewerAdapter(
 
             holder.binding.btnCopyInfo.setOnClickListener {
 
-                val clipboard: ClipboardManager? = getSystemService(mContext,ClipboardManager::class.java) as ClipboardManager?
+                val clipboard: ClipboardManager? = getSystemService(
+                    mContext,
+                    ClipboardManager::class.java
+                )
                 val clip = ClipData.newPlainText(entry.detailType, decryptedData)
                 clipboard?.setPrimaryClip(clip)
 
@@ -95,28 +98,31 @@ class LogoCompanyViewerAdapter(
                 holder.binding.btnPasswordToggleInfo.visibility = View.VISIBLE
 
                 var visiblePassword = false
-                holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                holder.binding.tvInfoContent.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                 holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_off)
 
                 holder.binding.btnPasswordToggleInfo.setOnClickListener {
                     if (visiblePassword == false) {
-                        holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        holder.binding.tvInfoContent.inputType =
+                            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
                         holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_on)
                         visiblePassword = true
                     } else {
-                        holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        holder.binding.tvInfoContent.inputType =
+                            InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
                         holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_off)
                         visiblePassword = false
                     }
                 }
-
             }
-
 
         })
 
 
+
     }
+
 
     fun setEntryDetailIcon(type: String, img: ImageView) {
         when(type) {

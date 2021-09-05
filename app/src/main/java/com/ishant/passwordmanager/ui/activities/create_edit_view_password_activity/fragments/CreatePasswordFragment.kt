@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.widget.PopupMenu
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -33,6 +34,7 @@ import com.ishant.passwordmanager.util.CompanyList
 import com.ishant.passwordmanager.util.CompanyListData
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
+import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.*
 
 
@@ -64,7 +66,6 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
         viewModel = (activity as CreateEditViewPasswordActivity).viewModel
 
         binding.btnIcon.setOnClickListener {
-
 
             val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
             val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
@@ -155,8 +156,6 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
         binding.btnSave.setOnClickListener {
 
-
-
             val entryTitle = binding.entryTitleLayout.editText?.text.toString()
 
             val entryCategory: String = (binding.categoryChipGroup.children.toList().filter {
@@ -170,6 +169,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             if(entryTitle.isNotEmpty() || entryTitle.isNotBlank()) {
                 if(entryCategory.isNotEmpty() || entryCategory.isNotBlank()) {
                     if(entryDetailsList.isNotEmpty()) {
+
+                        val dialog = SpotsDialog.Builder()
+                            .setContext(requireContext())
+                            .setMessage("Encrypting and Saving your Details")
+                            .setCancelable(false)
+                            .build()
+
+                        dialog.show()
 
                             val password1 = PASSWORD1
                             val password2 = PASSWORD2

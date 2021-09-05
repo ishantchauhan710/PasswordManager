@@ -16,7 +16,7 @@ object CompanyListData {
     CompanyList(8,"Instagram",R.drawable.ig_logo),
     CompanyList(9,"LinkedIn",R.drawable.cl_linkedin),
     CompanyList(10,"Microsoft",R.drawable.cl_microsoft),
-    CompanyList(11,"Outlook",R.drawable.cl_microsoft),
+    CompanyList(11,"Outlook",R.drawable.cl_outlook),
     CompanyList(12,"PayPal",R.drawable.cl_paypal),
     CompanyList(13,"Paytm",R.drawable.cl_paytm),
     CompanyList(14,"Proton Mail",R.drawable.cl_protonmail),

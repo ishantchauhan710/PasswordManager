@@ -2,6 +2,7 @@ package com.ishant.passwordmanager.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
@@ -72,6 +73,10 @@ class PasswordAdapter(val mContext: Context): RecyclerView.Adapter<PasswordAdapt
             onItemClickListener?.let {
                 it(entry)
             }
+        }
+
+        if(position==differ.currentList.size-1) {
+            holder.binding.layoutBottomSpace.visibility = View.VISIBLE
         }
 
 
