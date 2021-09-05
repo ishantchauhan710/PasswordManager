@@ -2,6 +2,7 @@ package com.ishant.passwordmanager.ui.activities.password_activity.fragments
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -42,6 +43,8 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
             val command = "view"
             val intent = Intent(requireContext(),CreateEditViewPasswordActivity::class.java)
             intent.putExtra("command",command)
+            intent.putExtra("data",it.id)
+            //Toast.makeText(requireContext(),"Id: ${it.id}",Toast.LENGTH_SHORT).show()
             startActivity(intent)
         }
 

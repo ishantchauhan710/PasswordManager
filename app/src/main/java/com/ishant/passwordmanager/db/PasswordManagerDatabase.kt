@@ -4,12 +4,12 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.ishant.passwordmanager.db.entities.EncryptedSalt
+import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
 
 @Database(
-    entities = [Entry::class,EntryDetail::class,EncryptedSalt::class
+    entities = [Entry::class,EntryDetail::class,EncryptedKey::class
 
                ],
     version = 1

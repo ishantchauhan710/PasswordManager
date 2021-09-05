@@ -2,6 +2,7 @@ package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activ
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -18,6 +19,8 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
     lateinit var binding: ActivityCreateEditViewPasswordBinding
     lateinit var viewModel: CreateEditViewPasswordViewModel
 
+    lateinit var command: String
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -31,11 +34,17 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
         setContentView(binding.root)
         supportActionBar?.hide()
 
+        command = intent?.getStringExtra("command").toString()
+        val data = intent?.getIntExtra("data",7777777)
 
-        val command = intent?.getStringExtra("command")
+
+
         if(command=="view") {
+            val bundle = Bundle().apply {
+                putInt("data",data!!)
+            }
             findNavController(R.id.fragment2).popBackStack()
-            findNavController(R.id.fragment2).navigate(R.id.viewPasswordsFragment)
+            findNavController(R.id.fragment2).navigate(R.id.viewPasswordsFragment,bundle)
         }
 
 

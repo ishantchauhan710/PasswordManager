@@ -1,7 +1,7 @@
 package com.ishant.passwordmanager.util
 
 data class EncryptedObject(
-    val emdSalt: String,
-    val eedSalt: String,
+    val key1: String,
+    val key2: String,
     val encryptedData: String
 )

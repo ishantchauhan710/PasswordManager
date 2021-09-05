@@ -1,7 +1,7 @@
 package com.ishant.passwordmanager.repository
 
 import com.ishant.passwordmanager.db.PasswordManagerDatabase
-import com.ishant.passwordmanager.db.entities.EncryptedSalt
+import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
 
@@ -16,13 +16,13 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
 
     suspend fun deleteEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().deleteEntryDetail(entryDetail)
 
-    fun getAllEntryDetails() = db.getPasswordManagerDao().getAllEntryDetails()
+    fun getAllEntryDetails(id: Int) = db.getPasswordManagerDao().getAllEntryDetails(id)
 
-    suspend fun upsertEncryptedSalt(encryptedSalt: EncryptedSalt) = db.getPasswordManagerDao().upsertSalt(encryptedSalt)
+    suspend fun upsertEncryptedKey(encryptedKey: EncryptedKey) = db.getPasswordManagerDao().upsertKey(encryptedKey)
 
-    suspend fun deleteEncryptedSalt(encryptedSalt: EncryptedSalt) = db.getPasswordManagerDao().deleteSalt(encryptedSalt)
+    suspend fun deleteEncryptedKey(encryptedKey: EncryptedKey) = db.getPasswordManagerDao().deleteKey(encryptedKey)
 
-    fun getAllEncryptedSalts() = db.getPasswordManagerDao().getAllEncryptedSalts()
+    fun getAllEncryptedKey(id: Int) = db.getPasswordManagerDao().getAllEncryptedKey(id)
 
 
 

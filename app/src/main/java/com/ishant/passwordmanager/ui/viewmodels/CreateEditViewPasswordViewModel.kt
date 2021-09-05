@@ -2,7 +2,7 @@ package com.ishant.passwordmanager.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ishant.passwordmanager.db.entities.EncryptedSalt
+import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.repository.PasswordManagerRepository
@@ -25,18 +25,18 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
         repository.deleteEntryDetail(entryDetail)
     }
 
-    fun getAllEntryDetails() = repository.getAllEntryDetails()
+    fun getAllEntryDetails(id: Int) = repository.getAllEntryDetails(id)
 
-    fun upsertEncryptedSalt(encryptedSalt: EncryptedSalt) = viewModelScope.launch {
-        repository.upsertEncryptedSalt(encryptedSalt)
+    fun upsertEncryptedKey(encryptedKey: EncryptedKey) = viewModelScope.launch {
+        repository.upsertEncryptedKey(encryptedKey)
     }
 
-    fun deleteEncryptedSalt(encryptedSalt: EncryptedSalt) = viewModelScope.launch {
-        repository.deleteEncryptedSalt(encryptedSalt)
+    fun deleteEncryptedKey(encryptedKey: EncryptedKey) = viewModelScope.launch {
+        repository.deleteEncryptedKey(encryptedKey)
     }
 
 
-    fun getAllEncryptedSalts() = repository.getAllEncryptedSalts()
+    fun getAllEncryptedKeys(id: Int) = repository.getAllEncryptedKey(id)
 
 
 

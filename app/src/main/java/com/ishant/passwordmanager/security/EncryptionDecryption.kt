@@ -14,15 +14,13 @@ class EncryptionDecryption {
             val eedSalt = saltString(generateSalt())
             val eedKey = generateKeyFromPassword(eedPasswordArg,eedSalt)
             val eedEncryptedString = encrypt(emdEncryptedString, eedKey).toString()
-            return EncryptedObject(emdSalt,eedSalt, eedEncryptedString)
+            return EncryptedObject(keyString(emdKey), keyString(eedKey), eedEncryptedString)
         }
 
-        fun decrypt(encryptedData: String, emdPasswordArg: String, eedPasswordArg: String, emdSaltArg: String, eedSaltArg: String): String {
-            val eedDecryptKey = generateKeyFromPassword(eedPasswordArg,eedSaltArg)
-            val decryptedEncryptedString = decryptString(CipherTextIvMac(encryptedData),eedDecryptKey)
-            val emdDecryptKey = generateKeyFromPassword(emdPasswordArg,emdSaltArg)
-            val decryptedString = decryptString(CipherTextIvMac(decryptedEncryptedString),emdDecryptKey)
-            return decryptedString
+        fun decrypt(encryptedData: String, emdPasswordArg: String, eedPasswordArg: String, emdKeyArg: String, eedKeyArg: String): String {
+            val eedDecryptedString = decryptString(CipherTextIvMac(encryptedData), keys(eedKeyArg))
+            val emdDecryptedString = decryptString(CipherTextIvMac(eedDecryptedString),keys(emdKeyArg))
+            return emdDecryptedString
         }
 
 

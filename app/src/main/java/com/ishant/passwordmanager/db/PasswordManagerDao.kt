@@ -2,7 +2,7 @@ package com.ishant.passwordmanager.db
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.ishant.passwordmanager.db.entities.EncryptedSalt
+import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
 
@@ -24,17 +24,17 @@ interface PasswordManagerDao {
     @Delete
     suspend fun deleteEntryDetail(entryDetail: EntryDetail)
 
-    @Query("SELECT * FROM entry_details")
-    fun getAllEntryDetails(): LiveData<List<EntryDetail>>
+    @Query("SELECT * FROM entry_details WHERE entryId = :id")
+    fun getAllEntryDetails(id: Int): LiveData<List<EntryDetail>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun upsertSalt(encryptedSalt: EncryptedSalt)
+    suspend fun upsertKey(encryptedKey: EncryptedKey)
 
     @Delete
-    suspend fun deleteSalt(encryptedSalt: EncryptedSalt)
+    suspend fun deleteKey(encryptedKey: EncryptedKey)
 
-    @Query("SELECT * FROM salts")
-    fun getAllEncryptedSalts(): LiveData<List<EncryptedSalt>>
+    @Query("SELECT * FROM keys WHERE entryDetailId = :id")
+    fun getAllEncryptedKey(id: Int): LiveData<List<EncryptedKey>>
 
 
 
