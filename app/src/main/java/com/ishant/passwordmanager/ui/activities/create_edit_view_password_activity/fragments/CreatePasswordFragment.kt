@@ -1,16 +1,20 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
 import android.os.Bundle
+import android.text.Editable
 import android.text.InputType
 import android.text.InputType.TYPE_CLASS_TEXT
+import android.text.TextWatcher
 import android.view.MotionEvent
 import android.view.View
 import android.view.View.OnTouchListener
+import android.view.WindowManager
 import android.widget.PopupMenu
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
@@ -25,6 +29,7 @@ import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.encrypt
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
+import com.ishant.passwordmanager.util.CompanyList
 import com.ishant.passwordmanager.util.CompanyListData
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
@@ -75,6 +80,35 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 companyIcon = it.companyIcon
                 iBottomSheetDialog.dismiss()
             }
+
+            iBottomSheetDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
+            companySheetBinding.searchBar.addTextChangedListener(object: TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                    val companyListData = CompanyListData.companyListData
+                    val filteredList = mutableListOf<CompanyList>()
+
+                    if(p0!=null) {
+                        for (company in companyListData) {
+                            if(company.companyName.contains(p0)) {
+                                filteredList.add(company)
+                            }
+                        }
+                    }
+
+                    val filteredCompanyAdapter = LogoCompanyChooserAdapter(filteredList)
+                    companySheetBinding.rvCompanyChooser.adapter = filteredCompanyAdapter
+
+                }
+
+                override fun afterTextChanged(p0: Editable?) {
+
+                }
+            })
 
 
         }
