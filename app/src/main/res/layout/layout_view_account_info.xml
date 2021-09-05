@@ -52,10 +52,12 @@
 
     <ImageView
         android:id="@+id/btnPasswordToggleInfo"
+        android:visibility="gone"
         android:layout_width="25dp"
         android:layout_height="25dp"
+        android:background="?selectableItemBackgroundBorderless"
         android:layout_marginRight="10dp"
-        android:src="@drawable/ic_visibility_off"
+        android:src="@drawable/ic_visibility_on"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toStartOf="@id/btnCopyInfo"
         app:layout_constraintTop_toTopOf="parent"
@@ -66,24 +68,10 @@
         android:layout_width="25dp"
         android:layout_height="25dp"
         android:src="@drawable/ic_copy"
+        android:background="?selectableItemBackgroundBorderless"
         app:layout_constraintBottom_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="#7f7d88" />
-<!--
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0.2dp"
-        android:background="#B6B6B6"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
--->
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

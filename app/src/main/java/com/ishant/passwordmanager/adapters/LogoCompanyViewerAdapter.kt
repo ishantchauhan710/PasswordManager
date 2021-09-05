@@ -1,27 +1,40 @@
 package com.ishant.passwordmanager.adapters
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
+import android.content.Context.CLIPBOARD_SERVICE
+import android.text.InputType
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.LayoutViewAccountInfoBinding
-import com.ishant.passwordmanager.databinding.LogoCompanyBinding
 import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.decrypt
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
-import com.ishant.passwordmanager.util.CompanyList
-import com.ishant.passwordmanager.util.EncryptedObject
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
-import java.security.acl.Owner
+import kotlin.coroutines.coroutineContext
 
-class LogoCompanyViewerAdapter(private val viewModel: CreateEditViewPasswordViewModel, private val owner: LifecycleOwner): RecyclerView.Adapter<LogoCompanyViewerAdapter.LogoCompanyViewerAdapterViewHolder>() {
-    inner class LogoCompanyViewerAdapterViewHolder(val binding: LayoutViewAccountInfoBinding): RecyclerView.ViewHolder(binding.root)
+
+class LogoCompanyViewerAdapter(
+    private val viewModel: CreateEditViewPasswordViewModel,
+    private val owner: LifecycleOwner,
+    private val mainView: View,
+    private val mContext: Context
+): RecyclerView.Adapter<LogoCompanyViewerAdapter.LogoCompanyViewerAdapterViewHolder>() {
+    inner class LogoCompanyViewerAdapterViewHolder(val binding: LayoutViewAccountInfoBinding): RecyclerView.ViewHolder(
+        binding.root
+    )
 
     private val differCallback = object: DiffUtil.ItemCallback<EntryDetail>() {
         override fun areItemsTheSame(oldItem: EntryDetail, newItem: EntryDetail): Boolean {
@@ -33,13 +46,17 @@ class LogoCompanyViewerAdapter(private val viewModel: CreateEditViewPasswordView
         }
     }
 
-    val differ = AsyncListDiffer(this,differCallback)
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
     ): LogoCompanyViewerAdapterViewHolder {
-        val view = LayoutViewAccountInfoBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val view = LayoutViewAccountInfoBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
+        )
         return LogoCompanyViewerAdapterViewHolder(view)
     }
 
@@ -53,11 +70,49 @@ class LogoCompanyViewerAdapter(private val viewModel: CreateEditViewPasswordView
 
         viewModel.getAllEncryptedKeys(entry.id).observe(owner, Observer { encryptedSaltList ->
             val encryptedSalt = encryptedSaltList[0]
-            val decryptedData =  decrypt(entry.detailContent,PASSWORD1,PASSWORD2,encryptedSalt.emdSalt,encryptedSalt.eedSalt)
+            val decryptedData = decrypt(
+                entry.detailContent,
+                PASSWORD1,
+                PASSWORD2,
+                encryptedSalt.emdSalt,
+                encryptedSalt.eedSalt
+            )
 
             holder.binding.tvInfoType.text = entry.detailType
             holder.binding.tvInfoContent.text = decryptedData
-            setEntryDetailIcon(entry.detailType,holder.binding.ivInfoIcon)
+            setEntryDetailIcon(entry.detailType, holder.binding.ivInfoIcon)
+
+            holder.binding.btnCopyInfo.setOnClickListener {
+
+                val clipboard: ClipboardManager? = getSystemService(mContext,ClipboardManager::class.java) as ClipboardManager?
+                val clip = ClipData.newPlainText(entry.detailType, decryptedData)
+                clipboard?.setPrimaryClip(clip)
+
+                Snackbar.make(mainView, "Text copied", Snackbar.LENGTH_SHORT).show()
+            }
+
+            if (entry.detailType == "Password") {
+                holder.binding.btnPasswordToggleInfo.visibility = View.VISIBLE
+
+                var visiblePassword = false
+                holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_off)
+
+                holder.binding.btnPasswordToggleInfo.setOnClickListener {
+                    if (visiblePassword == false) {
+                        holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+                        holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_on)
+                        visiblePassword = true
+                    } else {
+                        holder.binding.tvInfoContent.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                        holder.binding.btnPasswordToggleInfo.setImageResource(R.drawable.ic_visibility_off)
+                        visiblePassword = false
+                    }
+                }
+
+            }
+
+
         })
 
 

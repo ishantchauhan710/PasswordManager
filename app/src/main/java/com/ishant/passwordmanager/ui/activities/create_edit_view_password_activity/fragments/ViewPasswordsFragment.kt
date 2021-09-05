@@ -43,7 +43,7 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
 
 
 
-        val entryDetailAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner)
+        val entryDetailAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner,view,requireContext())
         binding.rvAccountDetails.apply {
             adapter = entryDetailAdapter
             layoutManager = LinearLayoutManager(requireContext())
