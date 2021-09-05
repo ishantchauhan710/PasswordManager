@@ -21,8 +21,8 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = repository.upsertEntryDetail(entryDetail)
 
 
-    fun deleteEntryDetail(entryDetail: EntryDetail) = viewModelScope.launch {
-        repository.deleteEntryDetail(entryDetail)
+    fun deleteEntryDetails(id: Int) = viewModelScope.launch {
+        repository.deleteEntryDetails(id)
     }
 
     fun getAllEntryDetails(id: Int) = repository.getAllEntryDetails(id)
@@ -31,8 +31,8 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
         repository.upsertEncryptedKey(encryptedKey)
     }
 
-    fun deleteEncryptedKey(encryptedKey: EncryptedKey) = viewModelScope.launch {
-        repository.deleteEncryptedKey(encryptedKey)
+    fun deleteEncryptedKeys(id: Int) = viewModelScope.launch {
+        repository.deleteEncryptedKeys(id)
     }
 
 

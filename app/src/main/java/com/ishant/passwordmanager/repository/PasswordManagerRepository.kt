@@ -14,15 +14,15 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().upsertEntryDetail(entryDetail)
 
-    suspend fun deleteEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().deleteEntryDetail(entryDetail)
+    suspend fun deleteEntryDetails(id: Int) = db.getPasswordManagerDao().deleteEntryDetails(id)
 
     fun getAllEntryDetails(id: Int) = db.getPasswordManagerDao().getAllEntryDetails(id)
 
     suspend fun upsertEncryptedKey(encryptedKey: EncryptedKey) = db.getPasswordManagerDao().upsertKey(encryptedKey)
 
-    suspend fun deleteEncryptedKey(encryptedKey: EncryptedKey) = db.getPasswordManagerDao().deleteKey(encryptedKey)
+    suspend fun deleteEncryptedKeys(id: Int) = db.getPasswordManagerDao().deleteKeys(id)
 
-    fun getAllEncryptedKey(id: Int) = db.getPasswordManagerDao().getAllEncryptedKey(id)
+    fun getAllEncryptedKey(id: Int) = db.getPasswordManagerDao().getAllEncryptedKeys(id)
 
 
 

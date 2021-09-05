@@ -25,27 +25,29 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel = (activity as PasswordActivity).viewModel
+
+
         binding = FragmentPasswordsBinding.bind(view)
 
-        val adapter = PasswordAdapter(requireContext())
+        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view)
 
         binding.rvPasswords.adapter = adapter
         binding.rvPasswords.layoutManager = LinearLayoutManager(requireContext())
-
-        viewModel = (activity as PasswordActivity).viewModel
-
 
         viewModel.getAllEntries().observe(viewLifecycleOwner, Observer {
             adapter.differ.submitList(it)
         })
 
         adapter.setOnItemClickListener {
+
             val command = "view"
             val intent = Intent(requireContext(),CreateEditViewPasswordActivity::class.java)
             intent.putExtra("command",command)
             intent.putExtra("data",it)
             //Toast.makeText(requireContext(),"Id: ${it.id}",Toast.LENGTH_SHORT).show()
             startActivity(intent)
+
         }
 
 

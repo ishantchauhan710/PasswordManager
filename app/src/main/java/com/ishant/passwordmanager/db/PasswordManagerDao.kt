@@ -21,8 +21,8 @@ interface PasswordManagerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertEntryDetail(entryDetail: EntryDetail): Long
 
-    @Delete
-    suspend fun deleteEntryDetail(entryDetail: EntryDetail)
+    @Query("DELETE FROM entry_details WHERE entryId = :id")
+    suspend fun deleteEntryDetails(id: Int)
 
     @Query("SELECT * FROM entry_details WHERE entryId = :id")
     fun getAllEntryDetails(id: Int): LiveData<List<EntryDetail>>
@@ -30,11 +30,11 @@ interface PasswordManagerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertKey(encryptedKey: EncryptedKey)
 
-    @Delete
-    suspend fun deleteKey(encryptedKey: EncryptedKey)
+    @Query("DELETE FROM keys WHERE entryDetailId = :id")
+    suspend fun deleteKeys(id: Int)
 
     @Query("SELECT * FROM keys WHERE entryDetailId = :id")
-    fun getAllEncryptedKey(id: Int): LiveData<List<EncryptedKey>>
+    fun getAllEncryptedKeys(id: Int): LiveData<List<EncryptedKey>>
 
 
 

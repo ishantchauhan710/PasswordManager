@@ -74,8 +74,8 @@ class LogoCompanyViewerAdapter(
                 entry.detailContent,
                 PASSWORD1,
                 PASSWORD2,
-                encryptedSalt.emdSalt,
-                encryptedSalt.eedSalt
+                encryptedSalt.emdKey,
+                encryptedSalt.eedKey
             )
 
             holder.binding.tvInfoType.text = entry.detailType

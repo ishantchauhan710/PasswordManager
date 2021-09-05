@@ -8,6 +8,6 @@ data class EncryptedKey (
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val entryDetailId: Long,
-    val emdSalt: String,
-    val eedSalt: String
+    val emdKey: String,
+    val eedKey: String
 )
