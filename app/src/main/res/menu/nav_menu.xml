@@ -6,6 +6,12 @@
     <group android:checkableBehavior= "single">
 
         <item
+            android:id= "@+id/miAll"
+            android:icon="@drawable/ic_all"
+            android:title= "All" />
+
+
+        <item
             android:id= "@+id/miSocial"
             android:icon="@drawable/ic_social"
             android:title= "Social" />
@@ -22,6 +28,11 @@
             android:title= "Cards" />
 
         <item
+            android:id= "@+id/miWork"
+            android:icon="@drawable/ic_work"
+            android:title= "Work" />
+
+        <item
             android:id= "@+id/miOthers"
             android:icon="@drawable/ic_others"
             android:title= "Others" />
@@ -34,10 +45,13 @@
                 android:id= "@+id/miChangePassword"
                 android:icon="@drawable/ic_password_change"
                 android:title= "Change Password" />
+
             <item
-                android:id= "@+id/miChangeTheme"
-                android:icon="@drawable/ic_theme"
-                android:title= "Change Theme" />
+                android:id= "@+id/miExit"
+                android:icon="@drawable/ic_exit"
+                android:title= "Exit" />
+
+
         </menu>
     </item>
 </menu>

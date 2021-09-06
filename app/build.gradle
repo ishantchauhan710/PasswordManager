@@ -84,4 +84,7 @@ dependencies {
     // Password Strength Meter
     implementation 'nu.aaro.gustav:passwordstrengthmeter:0.4'
 
+    // Material Drawer Layout
+    implementation "com.mikepenz:materialdrawer:8.4.3"
+
 }
