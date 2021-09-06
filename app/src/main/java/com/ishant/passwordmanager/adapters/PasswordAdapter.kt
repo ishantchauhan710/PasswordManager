@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
+import androidx.core.view.get
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -70,6 +71,13 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
 
                 val popupMenu = PopupMenu(mContext, it)
                 popupMenu.menuInflater.inflate(R.menu.options_menu, popupMenu.menu)
+
+                if(entry.favourite==0) {
+                    popupMenu.menu.get(2).title = "Add to Favourites"
+                } else {
+                    popupMenu.menu.get(2).title = "Remove from Favourites"
+                }
+
                 popupMenu.show()
 
                 popupMenu.setOnMenuItemClickListener { menuItem ->
@@ -99,12 +107,17 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
                                 }.create().show()
 
                         }
-                        R.id.miFav -> Toast.makeText(
-                            mContext,
-                            "Add to Favourites",
-                            Toast.LENGTH_SHORT
-                        )
-                            .show()
+                        R.id.miFav -> {
+
+                            if(entry.favourite==0) {
+                                viewModel.setFavouriteEntry(1,entry.id)
+                                Snackbar.make(fragmentView,"Added to Favourites",Snackbar.LENGTH_SHORT).show()
+                            } else {
+                                viewModel.setFavouriteEntry(0,entry.id)
+                                Snackbar.make(fragmentView,"Removed from Favourites",Snackbar.LENGTH_SHORT).show()
+                            }
+
+                        }
                     }
                     popupMenu.dismiss()
                     true
