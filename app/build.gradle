@@ -81,7 +81,7 @@ dependencies {
     // Loading Progress Bar
     implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
-    implementation 'com.github.abhinav0612:PasswordGeneratorLibrary:3.0'
+    // Password Strength Meter
     implementation 'nu.aaro.gustav:passwordstrengthmeter:0.4'
 
 }
