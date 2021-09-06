@@ -1,12 +1,21 @@
 package com.ishant.passwordmanager.ui.activities.password_activity.fragments
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.ishant.passwordmanager.R
@@ -30,6 +39,8 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
 
         binding = FragmentPasswordsBinding.bind(view)
 
+
+
         val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view)
 
         binding.rvPasswords.adapter = adapter
@@ -48,10 +59,11 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
             //Toast.makeText(requireContext(),"Id: ${it.id}",Toast.LENGTH_SHORT).show()
             startActivity(intent)
 
-
         }
 
 
     }
+
+
 
 }

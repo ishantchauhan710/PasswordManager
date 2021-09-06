@@ -1,5 +1,7 @@
 package com.ishant.passwordmanager.ui.viewmodels
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ishant.passwordmanager.db.entities.EncryptedKey
@@ -9,6 +11,8 @@ import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import kotlinx.coroutines.launch
 
 class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRepository): ViewModel() {
+
+    val filteredSearchList: MutableLiveData<List<Entry>> = MutableLiveData<List<Entry>>()
 
     suspend fun upsertEntry(entry: Entry): Long = repository.upsertEntry(entry)
 
@@ -23,6 +27,8 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
     suspend fun setFavouriteEntry(isFavourite: Int, id: Int) = viewModelScope.launch {
         repository.setFavouriteEntry(isFavourite,id)
     }
+
+    fun searchEntries(text: String) = repository.searchEntries(text)
 
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = repository.upsertEntryDetail(entryDetail)

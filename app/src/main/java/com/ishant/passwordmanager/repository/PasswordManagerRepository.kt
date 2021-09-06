@@ -18,6 +18,7 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
 
     suspend fun setFavouriteEntry(isFavourite: Int, id: Int) = db.getPasswordManagerDao().setFavouriteEntry(isFavourite,id)
 
+    fun searchEntries(text: String) = db.getPasswordManagerDao().searchEntries(text)
 
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().upsertEntryDetail(entryDetail)

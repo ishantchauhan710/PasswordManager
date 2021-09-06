@@ -24,7 +24,8 @@ interface PasswordManagerDao {
     @Query("UPDATE entry SET favourite = :isFavourite WHERE id = :id")
     suspend fun setFavouriteEntry(isFavourite: Int, id: Int)
 
-
+    @Query("SELECT * FROM entry WHERE title LIKE '%' || :text || '%'")
+    fun searchEntries(text: String): LiveData<List<Entry>>
 
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
