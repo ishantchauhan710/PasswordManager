@@ -38,9 +38,7 @@ class SearchPasswordFragment : Fragment(R.layout.fragment_search_password) {
 
 
 
-
-
-        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view)
+        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view,(activity as PasswordActivity))
 
 
         binding.rvSearchEntries.adapter = adapter

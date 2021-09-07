@@ -9,9 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.PasswordManager">
-        <activity
-            android:name=".ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity"/>
+        <activity android:name=".ui.activities.lock_activity.LockActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity" />
         <activity android:name=".ui.activities.password_activity.PasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

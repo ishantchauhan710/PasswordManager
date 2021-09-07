@@ -17,10 +17,11 @@ import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.PasswordBinding
 import com.ishant.passwordmanager.db.entities.Entry
+import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
-import com.ishant.passwordmanager.util.CompanyList
+import kotlinx.coroutines.*
 
-class PasswordAdapter(private val mContext: Context, private val viewModel: CreateEditViewPasswordViewModel, private val owner: LifecycleOwner, private val fragmentView: View): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
+class PasswordAdapter(private val mContext: Context, private val viewModel: CreateEditViewPasswordViewModel, private val owner: LifecycleOwner, private val fragmentView: View, private val activity: PasswordActivity): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
     inner class PasswordAdapterViewHolder(val binding: PasswordBinding): RecyclerView.ViewHolder(binding.root)
 
 
@@ -110,13 +111,56 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
                         R.id.miFav -> {
 
                             if(entry.favourite==0) {
-                                viewModel.setFavouriteEntry(1,entry.id)
-                                Snackbar.make(fragmentView,"Added to Favourites",Snackbar.LENGTH_SHORT).show()
-                            } else {
-                                viewModel.setFavouriteEntry(0,entry.id)
-                                Snackbar.make(fragmentView,"Removed from Favourites",Snackbar.LENGTH_SHORT).show()
-                            }
 
+
+                                //viewModel.setFavouriteEntry(1,entry.id)
+
+                                 CoroutineScope(Dispatchers.IO).launch {
+                                     entry.favourite = 1
+                                     async {viewModel.upsertEntry(entry)}.await()
+                                     withContext(Dispatchers.Main) {
+                                         Snackbar.make(fragmentView,"Added to Favourites",Snackbar.LENGTH_SHORT).show()
+                                         viewModel.getAllEntries().observe(owner, Observer { it1 ->
+                                             viewModel.sortedList.postValue(it1)
+                                             activity.binding.navView.setSelectionAtPosition(1, true)
+                                         })
+                                     }
+                                 }
+
+                                /*
+                                 viewModel.getAllEntries().observe(owner, Observer { it1 ->
+                                    viewModel.sortedList.postValue(it1)
+                                })
+                                activity.binding.navView.setSelection(1)
+
+
+                                 */
+
+                            } else {
+
+
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    entry.favourite = 0
+                                    async {viewModel.upsertEntry(entry)}.await()
+                                    withContext(Dispatchers.Main) {
+                                        Snackbar.make(fragmentView,"Removed to Favourites",Snackbar.LENGTH_SHORT).show()
+                                            viewModel.getAllEntries().observe(owner, Observer { it1 ->
+                                                viewModel.sortedList.postValue(it1)
+                                                activity.binding.navView.setSelectionAtPosition(1, true)
+                                            })
+                                    }
+
+                                }
+
+                                /*   viewModel.setFavouriteEntry(0,entry.id)
+                                   Snackbar.make(fragmentView,"Removed from Favourites",Snackbar.LENGTH_SHORT).show()
+                                   viewModel.getAllEntries().observe(owner, Observer { it1 ->
+                                       viewModel.sortedList.postValue(it1)
+                                   })
+                                   activity.binding.navView.setSelectionAtPosition(1,true)
+                                   */
+
+                            }
                         }
                     }
                     popupMenu.dismiss()

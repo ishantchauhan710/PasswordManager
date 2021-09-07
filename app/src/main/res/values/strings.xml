@@ -13,5 +13,6 @@
     <string name="others">Others</string>
     <string name="changepassword">Change Password</string>
     <string name="exit">Exit</string>
+    <string name="learnmore"><u>Learn More</u></string>
 
 </resources>

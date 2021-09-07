@@ -37,6 +37,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.iconDrawable
 import com.mikepenz.materialdrawer.model.interfaces.nameRes
+import com.mikepenz.materialdrawer.util.setItemAtPosition
 import com.mikepenz.materialdrawer.util.updateItem
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import com.tozny.crypto.android.AesCbcWithIntegrity.*
@@ -44,7 +45,7 @@ import com.tozny.crypto.android.AesCbcWithIntegrity.*
 
 class PasswordActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityPasswordBinding
+    lateinit var binding: ActivityPasswordBinding
     private lateinit var toggle: ActionBarDrawerToggle
     lateinit var viewModel: CreateEditViewPasswordViewModel
 
@@ -238,13 +239,6 @@ class PasswordActivity : AppCompatActivity() {
             binding.navView.updateItem(item6)
         })
 
-
-
-
-
-
-
-
         // get the reference to the slider and add the items
         binding.navView.itemAdapter.add(item1,item2,item3,item4,item5,item6,DividerDrawerItem(),item7,item8)
 
@@ -295,6 +289,8 @@ class PasswordActivity : AppCompatActivity() {
 
 
     }
+
+
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val menu = menuInflater.inflate(R.menu.action_bar_menu, menu)

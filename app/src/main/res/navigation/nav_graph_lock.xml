@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_lock"
+    app:startDestination="@id/createLockFragment">
+
+    <fragment
+        android:id="@+id/createLockFragment"
+        android:name="com.ishant.passwordmanager.ui.activities.lock_activity.fragments.CreateLockFragment"
+        android:label="fragment_create_lock"
+        tools:layout="@layout/fragment_create_lock" />
+
+</navigation>

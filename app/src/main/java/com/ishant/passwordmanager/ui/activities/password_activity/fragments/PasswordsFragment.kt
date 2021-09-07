@@ -40,8 +40,7 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
         binding = FragmentPasswordsBinding.bind(view)
 
 
-
-        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view)
+        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view,(activity as PasswordActivity))
 
         binding.rvPasswords.adapter = adapter
         binding.rvPasswords.layoutManager = LinearLayoutManager(requireContext())

@@ -18,7 +18,7 @@ class FavouritePasswordsFragment : Fragment(R.layout.fragment_favourite_password
         val viewModel = (activity as PasswordActivity).viewModel
         val binding = FragmentFavouritePasswordsBinding.bind(view)
 
-        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view)
+        val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view,(activity as PasswordActivity))
         binding.rvFavouritePasswords.adapter = adapter
         binding.rvFavouritePasswords.layoutManager = LinearLayoutManager(requireContext())
 
