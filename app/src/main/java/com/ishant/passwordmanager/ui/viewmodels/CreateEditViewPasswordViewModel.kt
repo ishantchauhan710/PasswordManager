@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
+import com.ishant.passwordmanager.db.entities.Lock
 import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import kotlinx.coroutines.launch
 
@@ -53,6 +54,13 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
 
 
     fun getAllEncryptedKeys(id: Int) = repository.getAllEncryptedKey(id)
+
+    fun setLock(lock: Lock) = viewModelScope.launch {
+        repository.setLock(lock)
+    }
+
+    fun getLockPassword(): LiveData<List<Lock>> = repository.getLockPassword()
+
 
 
 

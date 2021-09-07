@@ -5,6 +5,7 @@ import androidx.room.*
 import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
+import com.ishant.passwordmanager.db.entities.Lock
 
 @Dao
 interface PasswordManagerDao {
@@ -49,5 +50,10 @@ interface PasswordManagerDao {
     @Query("SELECT * FROM keys WHERE entryDetailId = :id")
     fun getAllEncryptedKeys(id: Int): LiveData<List<EncryptedKey>>
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun setLock(lock: Lock)
+
+    @Query("SELECT * FROM table_lock")
+    fun getLockPassword(): LiveData<List<Lock>>
 
 }

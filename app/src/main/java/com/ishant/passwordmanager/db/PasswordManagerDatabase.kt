@@ -7,11 +7,10 @@ import androidx.room.RoomDatabase
 import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
+import com.ishant.passwordmanager.db.entities.Lock
 
 @Database(
-    entities = [Entry::class,EntryDetail::class,EncryptedKey::class
-
-               ],
+    entities = [Entry::class,EntryDetail::class,EncryptedKey::class,Lock::class],
     version = 1
 )
 abstract class PasswordManagerDatabase: RoomDatabase() {
