@@ -76,7 +76,6 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
                 }
             }
 
-
         }
     }
 
