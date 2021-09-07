@@ -37,6 +37,7 @@ import com.mikepenz.materialdrawer.model.ProfileDrawerItem
 import com.mikepenz.materialdrawer.model.SecondaryDrawerItem
 import com.mikepenz.materialdrawer.model.interfaces.iconDrawable
 import com.mikepenz.materialdrawer.model.interfaces.nameRes
+import com.mikepenz.materialdrawer.util.updateItem
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import com.tozny.crypto.android.AesCbcWithIntegrity.*
 
@@ -114,7 +115,7 @@ class PasswordActivity : AppCompatActivity() {
             nameRes = R.string.all
             identifier = 1
             iconDrawable = resources.getDrawable(R.drawable.ic_all)
-            badge = StringHolder("07")
+
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
                 color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
@@ -124,49 +125,118 @@ class PasswordActivity : AppCompatActivity() {
 
         val item2 = PrimaryDrawerItem().apply {
             nameRes = R.string.social
-            identifier = 1
+            identifier = 2
             iconDrawable = resources.getDrawable(R.drawable.ic_social)
+
+            badgeStyle = BadgeStyle().apply {
+                textColor = ColorHolder.fromColor(Color.WHITE)
+                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                corners = DimenHolder.fromDp(50)
+            }
         }
 
         val item3 = PrimaryDrawerItem().apply {
             nameRes = R.string.mails
-            identifier = 1
+            identifier = 3
             iconDrawable = resources.getDrawable(R.drawable.ic_mail)
+
+            badgeStyle = BadgeStyle().apply {
+                textColor = ColorHolder.fromColor(Color.WHITE)
+                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                corners = DimenHolder.fromDp(50)
+            }
         }
 
         val item4 = PrimaryDrawerItem().apply {
             nameRes = R.string.card
-            identifier = 1
+            identifier = 4
             iconDrawable = resources.getDrawable(R.drawable.ic_card)
+
+            badgeStyle = BadgeStyle().apply {
+                textColor = ColorHolder.fromColor(Color.WHITE)
+                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                corners = DimenHolder.fromDp(50)
+            }
         }
 
         val item5 = PrimaryDrawerItem().apply {
             nameRes = R.string.work
-            identifier = 1
+            identifier = 5
             iconDrawable = resources.getDrawable(R.drawable.ic_work)
+
+            badgeStyle = BadgeStyle().apply {
+                textColor = ColorHolder.fromColor(Color.WHITE)
+                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                corners = DimenHolder.fromDp(50)
+            }
         }
 
         val item6 = PrimaryDrawerItem().apply {
             nameRes = R.string.others
-            identifier = 1
+            identifier = 6
             iconDrawable = resources.getDrawable(R.drawable.ic_others)
+
+            badgeStyle = BadgeStyle().apply {
+                textColor = ColorHolder.fromColor(Color.WHITE)
+                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                corners = DimenHolder.fromDp(50)
+            }
         }
 
-        val item7 = PrimaryDrawerItem().apply {
+        val item7 = SecondaryDrawerItem().apply {
             nameRes = R.string.changepassword
-            identifier = 1
+            identifier = 7
             iconDrawable = resources.getDrawable(R.drawable.ic_password_change)
         }
 
-        val item8 = PrimaryDrawerItem().apply {
+        val item8 = SecondaryDrawerItem().apply {
             nameRes = R.string.exit
-            identifier = 1
+            identifier = 8
             iconDrawable = resources.getDrawable(R.drawable.ic_exit)
         }
 
+        viewModel.getAllEntries().observe(this, Observer {
+            viewModel.sortedList.postValue(it)
+            item1.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item1)
+        })
 
+        viewModel.sortEntries("Social").observe(this, Observer {
+            item2.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item2)
+        })
 
+        viewModel.sortEntries("Mails").observe(this, Observer {
+            item3.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item3)
+        })
 
+        viewModel.sortEntries("Cards").observe(this, Observer {
+            item4.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item4)
+        })
+
+        viewModel.sortEntries("Work").observe(this, Observer {
+            item5.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item5)
+        })
+
+   viewModel.sortEntries("Other").observe(this, Observer {
+            item6.apply {
+                badge = StringHolder("${it.size}")
+            }
+            binding.navView.updateItem(item6)
+        })
 
 
 
@@ -178,13 +248,46 @@ class PasswordActivity : AppCompatActivity() {
         // get the reference to the slider and add the items
         binding.navView.itemAdapter.add(item1,item2,item3,item4,item5,item6,DividerDrawerItem(),item7,item8)
 
+        binding.navView.setSelection(1)
+
         // specify a click listener
         binding.navView.onDrawerItemClickListener = { v, drawerItem, position ->
-            // do something with the clicked item
-            if(position==0) {
-                Toast.makeText(this,"All",Toast.LENGTH_SHORT).show()
-            } else if(position==1) {
-                Toast.makeText(this,"Social",Toast.LENGTH_SHORT).show()
+            when(position) {
+                1 -> {
+                    viewModel.getAllEntries().observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                        item1.apply {
+                            badge = StringHolder("${it.size}")
+                        }
+                        binding.navView.updateItem(item1)
+                    })
+                }
+                2 -> {
+                    viewModel.sortEntries("Social").observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                    })
+                }
+                3 -> {
+                    viewModel.sortEntries("Mails").observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                    })
+                }
+                4 -> {
+                    viewModel.sortEntries("Cards").observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                    })
+                }
+                5 -> {
+                    viewModel.sortEntries("Work").observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                    })
+                }
+                6 -> {
+                    viewModel.sortEntries("Other").observe(this, Observer {
+                        viewModel.sortedList.postValue(it)
+                    })
+                }
+
             }
 
             false

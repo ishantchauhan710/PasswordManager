@@ -27,6 +27,9 @@ interface PasswordManagerDao {
     @Query("SELECT * FROM entry WHERE title LIKE '%' || :text || '%'")
     fun searchEntries(text: String): LiveData<List<Entry>>
 
+    @Query("SELECT * FROM entry WHERE category = :category")
+    fun sortEntries(category: String): LiveData<List<Entry>>
+
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertEntryDetail(entryDetail: EntryDetail): Long

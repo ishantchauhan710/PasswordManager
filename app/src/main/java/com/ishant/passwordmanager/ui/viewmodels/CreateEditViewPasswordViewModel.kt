@@ -13,6 +13,7 @@ import kotlinx.coroutines.launch
 class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRepository): ViewModel() {
 
     val filteredSearchList: MutableLiveData<List<Entry>> = MutableLiveData<List<Entry>>()
+    val sortedList: MutableLiveData<List<Entry>> = MutableLiveData<List<Entry>>()
 
     suspend fun upsertEntry(entry: Entry): Long = repository.upsertEntry(entry)
 
@@ -29,6 +30,8 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
     }
 
     fun searchEntries(text: String) = repository.searchEntries(text)
+
+    fun sortEntries(category: String) = repository.sortEntries(category)
 
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = repository.upsertEntryDetail(entryDetail)

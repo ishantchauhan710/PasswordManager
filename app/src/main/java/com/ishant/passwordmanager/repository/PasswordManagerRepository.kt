@@ -20,6 +20,8 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
 
     fun searchEntries(text: String) = db.getPasswordManagerDao().searchEntries(text)
 
+    fun sortEntries(category: String) = db.getPasswordManagerDao().sortEntries(category)
+
 
     suspend fun upsertEntryDetail(entryDetail: EntryDetail) = db.getPasswordManagerDao().upsertEntryDetail(entryDetail)
 

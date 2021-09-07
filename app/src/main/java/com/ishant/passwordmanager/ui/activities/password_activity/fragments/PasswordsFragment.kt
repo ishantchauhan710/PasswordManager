@@ -46,7 +46,7 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
         binding.rvPasswords.adapter = adapter
         binding.rvPasswords.layoutManager = LinearLayoutManager(requireContext())
 
-        viewModel.getAllEntries().observe(viewLifecycleOwner, Observer {
+        viewModel.sortedList.observe(viewLifecycleOwner, Observer {
             adapter.differ.submitList(it)
         })
 
