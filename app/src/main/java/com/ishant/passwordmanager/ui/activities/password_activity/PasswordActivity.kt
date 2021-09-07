@@ -306,6 +306,11 @@ class PasswordActivity : AppCompatActivity() {
                     startActivity(intent)
                 }
 
+                9 -> {
+                    // Closes the app and removes it from android tasks on device
+                    finishAndRemoveTask()
+                }
+
             }
 
             false
