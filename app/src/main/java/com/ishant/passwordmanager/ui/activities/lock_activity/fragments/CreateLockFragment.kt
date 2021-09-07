@@ -13,6 +13,10 @@ import com.ishant.passwordmanager.databinding.FragmentCreateLockBinding
 import com.ishant.passwordmanager.db.entities.Lock
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
 import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
 class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
 
@@ -26,6 +30,7 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
             mBottomSheetDialog.setContentView(sheetView)
 
             val mBottomSheetBinding = CreateLockBottomSheetBinding.bind(sheetView)
+            var cbBruteForce = 0
 
             mBottomSheetBinding.btnBruteForceHelp.setOnClickListener {
                 AlertDialog.Builder(requireContext())
@@ -42,7 +47,12 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
             mBottomSheetBinding.btnCreateAccount.setOnClickListener {
                 val password = mBottomSheetBinding.layoutLockPassword.editText?.text.toString()
                 val hint = mBottomSheetBinding.layoutLockPasswordHint.editText?.text.toString()
-                val cbBruteForce = mBottomSheetBinding.cbAntiBruteForce.isChecked
+
+                if(mBottomSheetBinding.cbAntiBruteForce.isChecked) {
+                    cbBruteForce = 1
+                } else {
+                    cbBruteForce = 0
+                }
 
                 if (password.isBlank() || password.isEmpty()) {
                     mBottomSheetBinding.layoutLockPassword.error = "Password cannot be blank"
@@ -54,12 +64,13 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
                             mBottomSheetBinding.layoutLockPassword.isErrorEnabled = false
                             mBottomSheetBinding.layoutLockPasswordHint.error = "Password Hint cannot be blank"
                         } else {
-
-                            val lock = Lock(0,password,"ishant",hint)
-                            viewModel.setLock(lock)
-                            val intent = Intent(requireContext(), PasswordActivity::class.java)
-                            startActivity(intent)
-                            (activity as LockActivity).finish()
+                            CoroutineScope(Dispatchers.IO).launch {
+                                val lock = Lock(0,password,"ishant",hint,cbBruteForce)
+                                async { viewModel.setLock(lock) }.await()
+                                val intent = Intent(requireContext(), PasswordActivity::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
+                            }
                         }
                     }
                 }

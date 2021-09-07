@@ -9,5 +9,6 @@ data class Lock(
     val id: Int,
     val password: String,
     val key: String,
-    val hint: String
+    val hint: String,
+    val antiBruteforceEnabled: Int
 )

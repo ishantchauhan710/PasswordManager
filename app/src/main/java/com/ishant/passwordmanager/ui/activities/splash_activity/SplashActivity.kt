@@ -11,6 +11,10 @@ import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
 import com.ishant.passwordmanager.ui.factories.CreateEditViewPasswordViewModelProviderFactory
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,15 +28,20 @@ class SplashActivity : AppCompatActivity() {
 
         viewModel.getLockPassword().observe(this, Observer {
             if(it.size==0) {
-                val intent = Intent(this,LockActivity::class.java)
-                intent.putExtra("command","createpassword")
-                startActivity(intent)
-                finish()
+                CoroutineScope(Dispatchers.IO).launch {
+                    delay(1000)
+                    val intent = Intent(this@SplashActivity,LockActivity::class.java)
+                    intent.putExtra("command","createpassword")
+                    startActivity(intent)
+                    finish()
+                }
             } else {
-                val intent = Intent(this,LockActivity::class.java)
-                intent.putExtra("command","askforpassword")
-                startActivity(intent)
-                finish()
+                CoroutineScope(Dispatchers.IO).launch {
+                    val intent = Intent(this@SplashActivity, LockActivity::class.java)
+                    intent.putExtra("command", "askforpassword")
+                    startActivity(intent)
+                    finish()
+                }
             }
         })
 

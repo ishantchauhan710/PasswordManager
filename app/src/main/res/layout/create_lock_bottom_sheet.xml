@@ -50,6 +50,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            android:inputType="text"
             android:textSize="20sp" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -59,7 +60,7 @@
         android:id="@+id/layoutAntiBruteforce"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,7 +111,7 @@
         android:layout_height="wrap_content"
         android:text="Create Account"
         android:backgroundTint="#2f3064"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

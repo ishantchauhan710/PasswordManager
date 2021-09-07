@@ -40,27 +40,29 @@ class LockPasswordFragment : Fragment(R.layout.fragment_lock_password) {
                         (activity as LockActivity).finish()
                     } else {
                         Snackbar.make(view,"Incorrect Password!",Snackbar.LENGTH_SHORT).show()
-                        incorrectPasswordCount += 1
 
-                        if(incorrectPasswordCount>=4) {
-                            CoroutineScope(Dispatchers.IO).launch {
-                                var timer = 60
-                                while(timer>0) {
-                                    withContext(Dispatchers.Main) {
-                                        binding.tvAntiBruteforceCountdown.visibility = View.VISIBLE
-                                        binding.tvAntiBruteforceCountdown.text = "Try again after $timer Seconds"
-                                        binding.layoutLockPassword.editText?.isEnabled = false
-                                        binding.btnLoginAccount.isEnabled = false
+                        if(lockData[0].antiBruteforceEnabled==1) {
+                            incorrectPasswordCount += 1
+                            if(incorrectPasswordCount>=4) {
+                                CoroutineScope(Dispatchers.IO).launch {
+                                    var timer = 60
+                                    while(timer>0) {
+                                        withContext(Dispatchers.Main) {
+                                            binding.tvAntiBruteforceCountdown.visibility = View.VISIBLE
+                                            binding.tvAntiBruteforceCountdown.text = "Try again after $timer Seconds"
+                                            binding.layoutLockPassword.editText?.isEnabled = false
+                                            binding.btnLoginAccount.isEnabled = false
 
+                                        }
+                                        delay(1000)
+                                        timer--
                                     }
-                                    delay(1000)
-                                    timer--
-                                }
-                                withContext(Dispatchers.Main) {
-                                    incorrectPasswordCount = 0
-                                    binding.tvAntiBruteforceCountdown.visibility = View.GONE
-                                    binding.layoutLockPassword.editText?.isEnabled = true
-                                    binding.btnLoginAccount.isEnabled = true
+                                    withContext(Dispatchers.Main) {
+                                        incorrectPasswordCount = 0
+                                        binding.tvAntiBruteforceCountdown.visibility = View.GONE
+                                        binding.layoutLockPassword.editText?.isEnabled = true
+                                        binding.btnLoginAccount.isEnabled = true
+                                    }
                                 }
                             }
                         }
