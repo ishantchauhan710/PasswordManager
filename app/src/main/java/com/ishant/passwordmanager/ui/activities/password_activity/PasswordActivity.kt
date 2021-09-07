@@ -100,8 +100,7 @@ class PasswordActivity : AppCompatActivity() {
 
 
         // Header Layout
-
-        val headerView = AccountHeaderView(this).apply {
+        AccountHeaderView(this).apply {
             attachToSliderView(binding.navView) // attach to the slider
             headerBackground =  ImageHolder(R.drawable.tech_bg)
             onAccountHeaderListener = { view, profile, current ->
@@ -119,7 +118,7 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#EF5350"))
                 corners = DimenHolder.fromDp(50)
             }
         }
@@ -131,7 +130,7 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#3D5AFE"))
                 corners = DimenHolder.fromDp(50)
             }
         }
@@ -143,7 +142,7 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#8E24AA"))
                 corners = DimenHolder.fromDp(50)
             }
         }
@@ -155,7 +154,7 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#29B6F6"))
                 corners = DimenHolder.fromDp(50)
             }
         }
@@ -167,7 +166,7 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#7CB342"))
                 corners = DimenHolder.fromDp(50)
             }
         }
@@ -179,64 +178,76 @@ class PasswordActivity : AppCompatActivity() {
 
             badgeStyle = BadgeStyle().apply {
                 textColor = ColorHolder.fromColor(Color.WHITE)
-                color = ColorHolder.fromColor(Color.parseColor("#2F3061"))
+                color = ColorHolder.fromColor(Color.parseColor("#FFA100"))
                 corners = DimenHolder.fromDp(50)
             }
         }
 
-        val item7 = SecondaryDrawerItem().apply {
+        val item7 = PrimaryDrawerItem().apply {
             nameRes = R.string.changepassword
             identifier = 7
             iconDrawable = resources.getDrawable(R.drawable.ic_password_change)
         }
 
-        val item8 = SecondaryDrawerItem().apply {
+        val item8 = PrimaryDrawerItem().apply {
             nameRes = R.string.exit
             identifier = 8
             iconDrawable = resources.getDrawable(R.drawable.ic_exit)
         }
 
         viewModel.getAllEntries().observe(this, Observer {
-            viewModel.sortedList.postValue(it)
-            item1.apply {
-                badge = StringHolder("${it.size}")
+            if (it.isNotEmpty()) {
+                item1.apply {
+                    badge = StringHolder("${it.size}")
+                    binding.navView.updateItem(item1)
+                }
             }
-            binding.navView.updateItem(item1)
         })
 
+
         viewModel.sortEntries("Social").observe(this, Observer {
-            item2.apply {
-                badge = StringHolder("${it.size}")
+            if (it.isNotEmpty()) {
+                item2.apply {
+                    badge = StringHolder("${it.size}")
+                    binding.navView.updateItem(item2)
+                }
             }
-            binding.navView.updateItem(item2)
         })
 
         viewModel.sortEntries("Mails").observe(this, Observer {
-            item3.apply {
-                badge = StringHolder("${it.size}")
+            if (it.isNotEmpty()) {
+                item3.apply {
+                    badge = StringHolder("${it.size}")
+                    binding.navView.updateItem(item3)
+                }
             }
-            binding.navView.updateItem(item3)
         })
 
         viewModel.sortEntries("Cards").observe(this, Observer {
-            item4.apply {
-                badge = StringHolder("${it.size}")
+            if (it.isNotEmpty()) {
+                item4.apply {
+                    badge = StringHolder("${it.size}")
+                    binding.navView.updateItem(item4)
+                }
             }
-            binding.navView.updateItem(item4)
         })
 
         viewModel.sortEntries("Work").observe(this, Observer {
-            item5.apply {
-                badge = StringHolder("${it.size}")
+            if (it.isNotEmpty()) {
+                item5.apply {
+                    badge = StringHolder("${it.size}")
+                    binding.navView.updateItem(item5)
+                }
             }
-            binding.navView.updateItem(item5)
         })
 
-   viewModel.sortEntries("Other").observe(this, Observer {
-            item6.apply {
-                badge = StringHolder("${it.size}")
-            }
-            binding.navView.updateItem(item6)
+        viewModel.sortEntries("Other").observe(this, Observer {
+                if (it.isNotEmpty()) {
+                    item6.apply {
+                        badge = StringHolder("${it.size}")
+                        binding.navView.updateItem(item6)
+                    }
+                }
         })
 
         // get the reference to the slider and add the items
