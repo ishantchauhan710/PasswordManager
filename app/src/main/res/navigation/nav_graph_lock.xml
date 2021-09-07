@@ -3,12 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph_lock"
-    app:startDestination="@id/createLockFragment">
+    app:startDestination="@id/lockPasswordFragment">
 
     <fragment
         android:id="@+id/createLockFragment"
         android:name="com.ishant.passwordmanager.ui.activities.lock_activity.fragments.CreateLockFragment"
         android:label="fragment_create_lock"
         tools:layout="@layout/fragment_create_lock" />
+    <fragment
+        android:id="@+id/lockPasswordFragment"
+        android:name="com.ishant.passwordmanager.ui.activities.lock_activity.fragments.LockPasswordFragment"
+        android:label="fragment_lock_password"
+        tools:layout="@layout/fragment_lock_password" />
 
 </navigation>
