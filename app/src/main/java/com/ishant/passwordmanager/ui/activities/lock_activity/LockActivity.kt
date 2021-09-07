@@ -41,6 +41,13 @@ class LockActivity : AppCompatActivity() {
             findNavController(R.id.fragment3).navigate(R.id.lockPasswordFragment)
         }
 
+        if(command=="changepassword") {
+            findNavController(R.id.fragment3).popBackStack()
+            findNavController(R.id.fragment3).navigate(R.id.updateLockPasswordFragment)
+        }
+
+
+
 
     }
 }

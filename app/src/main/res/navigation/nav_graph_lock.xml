@@ -15,5 +15,10 @@
         android:name="com.ishant.passwordmanager.ui.activities.lock_activity.fragments.LockPasswordFragment"
         android:label="fragment_lock_password"
         tools:layout="@layout/fragment_lock_password" />
+    <fragment
+        android:id="@+id/updateLockPasswordFragment"
+        android:name="com.ishant.passwordmanager.ui.activities.lock_activity.fragments.UpdateLockPasswordFragment"
+        android:label="fragment_update_lock_password"
+        tools:layout="@layout/fragment_update_lock_password" />
 
 </navigation>

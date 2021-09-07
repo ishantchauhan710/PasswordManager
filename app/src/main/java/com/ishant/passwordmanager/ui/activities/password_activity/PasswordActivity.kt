@@ -23,11 +23,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ishant.passwordmanager.R
-import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
 import com.ishant.passwordmanager.db.PasswordManagerDatabase
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.repository.PasswordManagerRepository
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
 import com.ishant.passwordmanager.ui.factories.CreateEditViewPasswordViewModelProviderFactory
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.mikepenz.materialdrawer.holder.*
@@ -41,6 +41,8 @@ import com.mikepenz.materialdrawer.util.setItemAtPosition
 import com.mikepenz.materialdrawer.util.updateItem
 import com.mikepenz.materialdrawer.widget.AccountHeaderView
 import com.tozny.crypto.android.AesCbcWithIntegrity.*
+import kotlinx.android.synthetic.main.activity_password.view.*
+import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
 
 
 class PasswordActivity : AppCompatActivity() {
@@ -187,15 +189,18 @@ class PasswordActivity : AppCompatActivity() {
             nameRes = R.string.changepassword
             identifier = 7
             iconDrawable = resources.getDrawable(R.drawable.ic_password_change)
+            isSelectable = false
         }
 
         val item8 = PrimaryDrawerItem().apply {
             nameRes = R.string.exit
             identifier = 8
             iconDrawable = resources.getDrawable(R.drawable.ic_exit)
+            isSelectable = false
         }
 
         viewModel.getAllEntries().observe(this, Observer {
+            viewModel.sortedList.postValue(it)
             if (it.isNotEmpty()) {
                 item1.apply {
                     badge = StringHolder("${it.size}")
@@ -250,6 +255,8 @@ class PasswordActivity : AppCompatActivity() {
                 }
         })
 
+
+
         // get the reference to the slider and add the items
         binding.navView.itemAdapter.add(item1,item2,item3,item4,item5,item6,DividerDrawerItem(),item7,item8)
 
@@ -293,12 +300,28 @@ class PasswordActivity : AppCompatActivity() {
                     })
                 }
 
+                8 -> {
+                    val intent = Intent(this,LockActivity::class.java)
+                    intent.putExtra("command","changepassword")
+                    startActivity(intent)
+                }
+
             }
 
             false
         }
 
 
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.navView.setSelection(1,true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.navView.setSelection(1,true)
     }
 
 
