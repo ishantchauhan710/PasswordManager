@@ -12,6 +12,7 @@ import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyViewerAdapter
 import com.ishant.passwordmanager.databinding.FragmentViewPasswordsBinding
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.util.CompanyListData
 import kotlinx.android.synthetic.main.fragment_view_passwords.view.*
 
 
@@ -29,8 +30,19 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
 
         val viewModel = (activity as CreateEditViewPasswordActivity).viewModel
 
+        val iconId = data.icon
 
-        binding.ivCompanyLogo.setImageResource(data.icon)
+        val iconList = CompanyListData.companyListData
+        for(icon in iconList) {
+            if(icon.id == iconId) {
+                binding.ivCompanyLogo.setImageResource(icon.companyIcon)
+                break
+            } else {
+                binding.ivCompanyLogo.setImageResource(R.drawable.cl_general_account)
+            }
+        }
+
+
         binding.tvCompanyName.text = data.title
         binding.tvCategory.text = data.category
         when(data.category) {

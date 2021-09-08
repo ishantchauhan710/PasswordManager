@@ -19,6 +19,7 @@ import com.ishant.passwordmanager.databinding.PasswordBinding
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
+import com.ishant.passwordmanager.util.CompanyListData
 import kotlinx.coroutines.*
 
 class PasswordAdapter(private val mContext: Context, private val viewModel: CreateEditViewPasswordViewModel, private val owner: LifecycleOwner, private val fragmentView: View, private val activity: PasswordActivity): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
@@ -59,7 +60,21 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
 
             holder.binding.tvPasswordTitle.text = entry.title
             holder.binding.tvPasswordInfo.text = entry.category
-            holder.binding.ivPasswordIcon.setImageResource(entry.icon)
+
+
+
+            val iconId = entry.icon
+            val iconList = CompanyListData.companyListData
+            for(icon in iconList) {
+                if(icon.id == iconId) {
+                    holder.binding.ivPasswordIcon.setImageResource(icon.companyIcon)
+                    break
+                } else {
+                    holder.binding.ivPasswordIcon.setImageResource(R.drawable.cl_general_account)
+                }
+            }
+
+
 
             holder.binding.root.setOnClickListener {
                 onItemClickListener?.let {
@@ -167,13 +182,6 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
                     true
                 }
             }
-
-
-
-            if (position == differ.currentList.size - 1) {
-
-            }
-
 
         })
 

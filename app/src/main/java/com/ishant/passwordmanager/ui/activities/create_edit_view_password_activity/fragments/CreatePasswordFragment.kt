@@ -10,6 +10,7 @@ import android.view.View
 import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
@@ -57,7 +58,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
 
-        var companyIcon = R.drawable.cl_general_account
+        var companyIcon = 0
 
         binding.btnBack.setOnClickListener {
             (activity as CreateEditViewPasswordActivity).finish()
@@ -78,7 +79,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             companySheetBinding.rvCompanyChooser.isNestedScrollingEnabled = true;
             iBottomSheetDialog.show()
             companyAdapter.setOnItemClickListener {
-                companyIcon = it.companyIcon
+                companyIcon = it.id
                 iBottomSheetDialog.dismiss()
             }
 
@@ -178,12 +179,21 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                         dialog.show()
 
-                            val password1 = PASSWORD1
-                            val password2 = PASSWORD2
+                        val password1 = PASSWORD1
+                        val password2 = PASSWORD2
 
-                            CoroutineScope(Dispatchers.IO).launch {
+                        CoroutineScope(Dispatchers.IO).launch {
 
-                                val entry = Entry(0, entryTitle, entryCategory, entryIcon,0)
+                            /*withContext(Dispatchers.Main) {
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Icon ID: $entryIcon",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }*/
+
+                              val entry = Entry(0, entryTitle, entryCategory, entryIcon,0)
+
 
                                 val id = async { viewModel.upsertEntry(entry) }.await()
 
@@ -216,7 +226,6 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                                }
 
                             }
-
                     } else {
                         Snackbar.make(
                             view,
