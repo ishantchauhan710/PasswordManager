@@ -7,15 +7,13 @@ import android.graphics.Typeface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.TypedValue
-import android.view.Gravity
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
+import android.view.*
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.MenuItemCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -105,14 +103,23 @@ class PasswordActivity : AppCompatActivity() {
 
         // Header Layout
         AccountHeaderView(this).apply {
-            attachToSliderView(binding.navView) // attach to the slider
-            headerBackground =  ImageHolder(R.drawable.tech_bg)
+
+            val drawerHeaderLayout = LayoutInflater.from(this@PasswordActivity).inflate(R.layout.drawer_header_layout,null,false)
+            val params = ConstraintLayout.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,ConstraintLayout.LayoutParams.MATCH_PARENT)
+            addView(drawerHeaderLayout,params)
+            attachToSliderView(binding.navView)
+           /* attachToSliderView(binding.navView) // attach to the slider
+            headerBackground =  ImageHolder(R.drawable.logo)
+            headerBackgroundScaleType = ImageView.ScaleType.FIT_CENTER
             onAccountHeaderListener = { view, profile, current ->
                 // react to profile changes
                 false
             }
-            withSavedInstance(savedInstanceState)
+            withSavedInstance(savedInstanceState)*/
         }
+
+
+
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
         val item1 = PrimaryDrawerItem().apply {

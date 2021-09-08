@@ -25,13 +25,11 @@ interface PasswordManagerDao {
     @Query("UPDATE entry SET favourite = :isFavourite WHERE id = :id")
     suspend fun setFavouriteEntry(isFavourite: Int, id: Int)
 
-    //@Query("SELECT entry_details.entryDetailId FROM entry_details INNER JOIN entry on entryId = entry.id WHERE title LIKE '%' || :text || '%' OR detailContent LIKE '%' || :text || '%'")
-    @Query("SELECT * FROM entry INNER JOIN entry_details ON entry.id = entry_details.entryId WHERE entry.title LIKE '%' || :text || '%' OR entry_details.detailContent LIKE '%' || :text || '%'")
+    @Query("SELECT * FROM entry WHERE title LIKE '%' || :text || '%' ")
     fun searchEntries(text: String): LiveData<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE category = :category")
     fun sortEntries(category: String): LiveData<List<Entry>>
-
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertEntryDetail(entryDetail: EntryDetail): Long
