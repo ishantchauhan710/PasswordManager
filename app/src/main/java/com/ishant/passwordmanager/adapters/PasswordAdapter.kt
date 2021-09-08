@@ -2,6 +2,7 @@ package com.ishant.passwordmanager.adapters
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,6 +58,13 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
         val entry = differ.currentList[position]
 
         viewModel.getAllEntryDetails(entry.id).observe(owner, Observer { entryDetailList ->
+
+
+
+            holder.binding.tvPasswordTitle.setBackgroundColor(0x00000000)
+            holder.binding.tvPasswordInfo.setBackgroundColor(0x00000000)
+            holder.binding.ivPasswordIcon.setBackgroundColor(0x00000000)
+
 
             holder.binding.tvPasswordTitle.text = entry.title
             holder.binding.tvPasswordInfo.text = entry.category

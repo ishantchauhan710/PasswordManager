@@ -78,9 +78,6 @@ dependencies {
     // Encryption Dependencies
     implementation 'com.github.tozny:java-aes-crypto:1.1.0'
 
-    // Loading Progress Bar
-    implementation 'com.github.d-max:spots-dialog:1.1@aar'
-
     // Password Strength Meter
     implementation 'nu.aaro.gustav:passwordstrengthmeter:0.4'
 

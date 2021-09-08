@@ -1,22 +1,18 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
 import android.text.InputType.TYPE_CLASS_TEXT
 import android.text.TextWatcher
-import android.view.MotionEvent
 import android.view.View
-import android.view.View.OnTouchListener
 import android.view.WindowManager
 import android.widget.PopupMenu
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
@@ -35,7 +31,6 @@ import com.ishant.passwordmanager.util.CompanyList
 import com.ishant.passwordmanager.util.CompanyListData
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
-import dmax.dialog.SpotsDialog
 import kotlinx.coroutines.*
 
 
@@ -71,7 +66,9 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             val iBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
             val sheetView = layoutInflater.inflate(R.layout.company_chooser_sheet, null)
             iBottomSheetDialog.setContentView(sheetView)
-            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(sheetView)
+            val companySheetBinding: CompanyChooserSheetBinding = CompanyChooserSheetBinding.bind(
+                sheetView
+            )
             val companyList = CompanyListData.companyListData
             val companyAdapter = LogoCompanyChooserAdapter(companyList)
             companySheetBinding.rvCompanyChooser.adapter = companyAdapter
@@ -85,7 +82,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
             iBottomSheetDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
-            companySheetBinding.searchBar.addTextChangedListener(object: TextWatcher {
+            companySheetBinding.searchBar.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 }
@@ -94,9 +91,9 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                     val companyListData = CompanyListData.companyListData
                     val filteredList = mutableListOf<CompanyList>()
 
-                    if(p0!=null) {
+                    if (p0 != null) {
                         for (company in companyListData) {
-                            if(company.companyName.contains(p0)) {
+                            if (company.companyName.contains(p0)) {
                                 filteredList.add(company)
                             }
                         }
@@ -171,12 +168,15 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 if(entryCategory.isNotEmpty() || entryCategory.isNotBlank()) {
                     if(entryDetailsList.isNotEmpty()) {
 
-                        val dialog = SpotsDialog.Builder()
+                       /* val dialog = SpotsDialog.Builder()
                             .setContext(requireContext())
                             .setMessage("Encrypting and Saving your Details")
                             .setCancelable(false)
                             .build()
 
+                        dialog.show()*/
+
+                        val dialog = ProgressDialog.show(requireContext(), "Please wait", "We are encrypting and saving your details ", true, false)
                         dialog.show()
 
                         val password1 = PASSWORD1
@@ -184,15 +184,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                         CoroutineScope(Dispatchers.IO).launch {
 
-                            /*withContext(Dispatchers.Main) {
-                                Toast.makeText(
-                                    requireContext(),
-                                    "Icon ID: $entryIcon",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-                            }*/
-
-                              val entry = Entry(0, entryTitle, entryCategory, entryIcon,0)
+                              val entry = Entry(0, entryTitle, entryCategory, entryIcon, 0)
 
 
                                 val id = async { viewModel.upsertEntry(entry) }.await()
