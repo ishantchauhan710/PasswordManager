@@ -9,7 +9,7 @@
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/optionsLottieAnim"
         android:layout_width="match_parent"
-        android:layout_height="250dp"
+        android:layout_height="300dp"
         app:lottie_autoPlay="true"
         app:lottie_repeatMode="reverse"
         app:lottie_loop="true"
@@ -17,7 +17,7 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:lottie_rawRes="@raw/create_password_anim" />
+        app:lottie_rawRes="@raw/entry_detail" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/optionInputLayout"
@@ -26,6 +26,7 @@
         app:boxBackgroundMode="outline"
         app:boxStrokeColor="#2F3061"
         app:hintTextColor="#2F3061"
+        android:layout_marginTop="20dp"
         app:boxBackgroundColor="#ffffff"
         app:helperText="Hello world"
         app:errorEnabled="true"

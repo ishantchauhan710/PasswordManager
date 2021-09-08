@@ -11,7 +11,9 @@ import android.view.WindowManager
 import android.widget.PopupMenu
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
 import com.google.android.material.chip.Chip
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +34,7 @@ import com.ishant.passwordmanager.util.CompanyListData
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
 import kotlinx.coroutines.*
+import java.util.*
 
 
 class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
@@ -46,10 +49,37 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentCreatePasswordBinding.bind(view)
 
+        val mBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
+        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet_options, null)
+        mBottomSheetDialog.setContentView(sheetView)
+        val sheetBinding: BottomSheetOptionsBinding = BottomSheetOptionsBinding.bind(sheetView)
+
+
         val rvAccountDetails = binding.rvAccountDetails
         adapter = PasswordAccountInfoAdapter(accountDetailList)
         rvAccountDetails.adapter = adapter
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
+
+         val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,0) {
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                val startPos = viewHolder.adapterPosition
+                val endPos = target.adapterPosition
+                Collections.swap(accountDetailList, startPos, endPos)
+                adapter.notifyItemMoved(startPos, endPos)
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
+            }
+        })
+
+        itemTouchHelper.attachToRecyclerView(binding.rvAccountDetails)
+
 
 
 
@@ -120,27 +150,27 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.miUsername -> {
-                        showBottomSheet(0)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,0)
                         popupMenu.dismiss()
                     }
                     R.id.miEmail -> {
-                        showBottomSheet(1)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,1)
                         popupMenu.dismiss()
                     }
                     R.id.miPhone -> {
-                        showBottomSheet(2)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,2)
                         popupMenu.dismiss()
                     }
                     R.id.miPassword -> {
-                        showBottomSheet(3)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,3)
                         popupMenu.dismiss()
                     }
                     R.id.miWebsite -> {
-                        showBottomSheet(4)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,4)
                         popupMenu.dismiss()
                     }
                     R.id.miNote -> {
-                        showBottomSheet(5)
+                        showBottomSheet(mBottomSheetDialog,sheetBinding,5)
                         popupMenu.dismiss()
                     }
 
@@ -176,7 +206,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                         dialog.show()*/
 
-                        val dialog = ProgressDialog.show(requireContext(), "Please wait", "We are encrypting and saving your details ", true, false)
+                        val dialog = ProgressDialog.show(requireContext(), "Saving", "Please wait, we are encrypting and saving all your information", true, false)
                         dialog.show()
 
                         val password1 = PASSWORD1
@@ -240,40 +270,42 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
 
-    private fun showBottomSheet(optionType: Int) {
-
-        val mBottomSheetDialog = RoundedBottomSheetDialog(requireContext())
-        val sheetView = layoutInflater.inflate(R.layout.bottom_sheet_options, null)
-        mBottomSheetDialog.setContentView(sheetView)
-
-        val sheetBinding: BottomSheetOptionsBinding = BottomSheetOptionsBinding.bind(sheetView)
+    private fun showBottomSheet(mBottomSheetDialog: RoundedBottomSheetDialog, sheetBinding: BottomSheetOptionsBinding,optionType: Int) {
 
         var detailType = ""
         var detailContent = ""
+
+        sheetBinding.optionInputLayout.editText?.text?.clear()
+        sheetBinding.optionInputLayout.editText?.clearFocus()
 
         when (optionType) {
             0 -> {
                 detailType = "Username"
                 sheetBinding.optionInputLayout.helperText = "Eg. user710"
+                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             }
             1 -> {
                 detailType = "Email"
                 sheetBinding.optionInputLayout.helperText = "Eg. user@example.com"
+                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+
             }
             2 -> {
                 detailType = "Phone Number"
                 sheetBinding.optionInputLayout.editText?.inputType =
-                    InputType.TYPE_CLASS_PHONE or InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
                 sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
             }
             3 -> {
                 detailType = "Password"
                 sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = true
                 sheetBinding.optionInputLayout.helperText = "Always keep strong passwords"
+                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             4 -> {
                 detailType = "Website"
                 sheetBinding.optionInputLayout.helperText = "Eg. www.example.com"
+                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             }
             5 -> {
                 detailType = "Notes"

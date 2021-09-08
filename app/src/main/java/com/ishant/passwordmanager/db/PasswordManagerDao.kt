@@ -16,7 +16,7 @@ interface PasswordManagerDao {
     @Delete
     suspend fun deleteEntry(entry: Entry)
 
-    @Query("SELECT * FROM entry")
+    @Query("SELECT * FROM entry ORDER BY id DESC")
     fun getAllEntries(): LiveData<List<Entry>>
 
     @Query("SELECT * FROM entry WHERE favourite = 1")
