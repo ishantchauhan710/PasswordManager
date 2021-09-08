@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.PasswordAdapter
 import com.ishant.passwordmanager.databinding.FragmentSearchPasswordBinding
+import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
@@ -36,6 +37,7 @@ class SearchPasswordFragment : Fragment(R.layout.fragment_search_password) {
         val viewModel = (activity as PasswordActivity).viewModel
         val binding = FragmentSearchPasswordBinding.bind(view)
 
+        val emptyList = listOf<Entry>()
 
 
         val adapter = PasswordAdapter(requireContext(),viewModel,viewLifecycleOwner,view,(activity as PasswordActivity))
@@ -45,7 +47,15 @@ class SearchPasswordFragment : Fragment(R.layout.fragment_search_password) {
         binding.rvSearchEntries.layoutManager = LinearLayoutManager(requireContext())
 
         viewModel.filteredSearchList.observe(viewLifecycleOwner, Observer {
-            adapter.differ.submitList(it)
+
+            if(it.isNullOrEmpty()) {
+                adapter.differ.submitList(emptyList)
+                binding.tvEmptySearch.visibility = View.VISIBLE
+            } else {
+                binding.tvEmptySearch.visibility = View.GONE
+                adapter.differ.submitList(it)
+            }
+
         })
 
         adapter.setOnItemClickListener {

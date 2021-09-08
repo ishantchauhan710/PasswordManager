@@ -68,6 +68,8 @@ class PasswordActivity : AppCompatActivity() {
         setUpActionBar()
         setUpNavigationBar()
 
+        val emptyList = listOf<Entry>()
+        viewModel.filteredSearchList.postValue(emptyList)
 
         val navController = Navigation.findNavController(this, R.id.fragment)
         binding.bottomNavigationView.setupWithNavController(navController)
@@ -378,14 +380,13 @@ class PasswordActivity : AppCompatActivity() {
 
                     override fun onQueryTextChange(newText: String?): Boolean {
 
-                        val emptyList = emptyList<Entry>()
-
-                        if (newText != null && newText != "") {
+                        if (newText?.isNotEmpty() == true || newText?.isNotBlank() == true) {
                             viewModel.searchEntries(newText)
                                 .observe(this@PasswordActivity, Observer {
                                     viewModel.filteredSearchList.postValue(it)
                                 })
                         } else {
+                            val emptyList = listOf<Entry>()
                             viewModel.filteredSearchList.postValue(emptyList)
                         }
 
