@@ -47,6 +47,16 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
             findNavController(R.id.fragment2).navigate(R.id.viewPasswordsFragment,bundle)
         }
 
+        if(command=="edit") {
+            val bundle = Bundle().apply {
+                putSerializable("data",data)
+            }
+            findNavController(R.id.fragment2).popBackStack()
+            findNavController(R.id.fragment2).navigate(R.id.editPasswordFragment,bundle)
+        }
+
+
+
 
 
     }
