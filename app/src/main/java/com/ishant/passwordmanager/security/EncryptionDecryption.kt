@@ -5,6 +5,13 @@ import com.tozny.crypto.android.AesCbcWithIntegrity.*
 
 class EncryptionDecryption {
 
+    init {
+        System.loadLibrary("key-jni")
+    }
+
+    external fun getKey(): String
+
+
     companion object {
 
         fun encrypt(data: String, emdPasswordArg: String, eedPasswordArg: String): EncryptedObject {
@@ -17,7 +24,7 @@ class EncryptionDecryption {
             return EncryptedObject(keyString(emdKey), keyString(eedKey), eedEncryptedString)
         }
 
-        fun decrypt(encryptedData: String, emdPasswordArg: String, eedPasswordArg: String, emdKeyArg: String, eedKeyArg: String): String {
+        fun decrypt(encryptedData: String, emdKeyArg: String, eedKeyArg: String): String {
             val eedDecryptedString = decryptString(CipherTextIvMac(encryptedData), keys(eedKeyArg))
             val emdDecryptedString = decryptString(CipherTextIvMac(eedDecryptedString),keys(emdKeyArg))
             return emdDecryptedString

@@ -72,8 +72,6 @@ class LogoCompanyViewerAdapter(
             val encryptedSalt = encryptedSaltList[0]
             val decryptedData = decrypt(
                 entry.detailContent,
-                PASSWORD1,
-                PASSWORD2,
                 encryptedSalt.emdKey,
                 encryptedSalt.eedKey
             )

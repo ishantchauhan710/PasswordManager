@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
-import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.CreateLockBottomSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreateLockBinding

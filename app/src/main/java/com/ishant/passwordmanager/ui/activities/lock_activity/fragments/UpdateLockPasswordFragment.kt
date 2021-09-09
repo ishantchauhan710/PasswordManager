@@ -1,21 +1,15 @@
 package com.ishant.passwordmanager.ui.activities.lock_activity.fragments
 
 import android.app.AlertDialog
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
-import com.deishelon.roundedbottomsheet.RoundedBottomSheetDialog
 import com.ishant.passwordmanager.R
-import com.ishant.passwordmanager.databinding.CreateLockBottomSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentUpdateLockPasswordBinding
 import com.ishant.passwordmanager.db.entities.Lock
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
-import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import kotlinx.coroutines.*
 
 
