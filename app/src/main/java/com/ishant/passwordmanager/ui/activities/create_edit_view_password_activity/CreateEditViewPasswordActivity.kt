@@ -55,9 +55,11 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
             findNavController(R.id.fragment2).navigate(R.id.editPasswordFragment,bundle)
         }
 
-
-
-
-
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
+    }
+
 }

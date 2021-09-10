@@ -1,6 +1,7 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
 import android.app.ProgressDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.InputType
@@ -32,6 +33,7 @@ import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.CompanyList
 import com.ishant.passwordmanager.util.CompanyListData
@@ -280,7 +282,6 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                             val id = async { viewModel.upsertEntry(entry) }.await()
 
                             for(entryDetail in entryDetailsList) {
-                                val securityClass = EncryptionDecryption()
                                 val encryptedObject = securityClass.encrypt(
                                     entryDetail.detailContent,
                                     password1,
@@ -304,6 +305,8 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                             }
 
                             withContext(Dispatchers.Main) {
+                                val intent = Intent(requireContext(), PasswordActivity::class.java)
+                                startActivity(intent)
                                 (activity as CreateEditViewPasswordActivity).finish()
                             }
 

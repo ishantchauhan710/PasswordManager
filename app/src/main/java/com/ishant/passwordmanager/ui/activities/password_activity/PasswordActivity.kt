@@ -78,6 +78,7 @@ class PasswordActivity : AppCompatActivity() {
         binding.btnNewPassword.setOnClickListener {
             val intent = Intent(this, CreateEditViewPasswordActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         findNavController(R.id.fragment).addOnDestinationChangedListener { controller, destination, arguments ->
