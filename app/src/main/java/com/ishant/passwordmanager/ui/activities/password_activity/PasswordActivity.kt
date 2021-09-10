@@ -1,6 +1,7 @@
 package com.ishant.passwordmanager.ui.activities.password_activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -51,6 +52,8 @@ class PasswordActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
         val database = PasswordManagerDatabase(this)
         val repository = PasswordManagerRepository(database)

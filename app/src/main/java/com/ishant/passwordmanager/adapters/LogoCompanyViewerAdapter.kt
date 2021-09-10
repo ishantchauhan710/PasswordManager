@@ -90,7 +90,7 @@ class LogoCompanyViewerAdapter(
                 val clip = ClipData.newPlainText(entry.detailType, decryptedData)
                 clipboard?.setPrimaryClip(clip)
 
-                Snackbar.make(mainView, "Text copied", Snackbar.LENGTH_SHORT).show()
+                Snackbar.make(mainView, "${entry.detailType} copied", Snackbar.LENGTH_SHORT).show()
             }
 
             if (entry.detailType == "Password") {

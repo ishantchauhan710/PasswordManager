@@ -337,7 +337,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             2 -> {
                 detailType = "Phone Number"
                 sheetBinding.optionInputLayout.editText?.inputType =
-                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
+                    InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_PHONE
                 sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
             }
             3 -> {

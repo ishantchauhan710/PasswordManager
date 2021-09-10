@@ -1,6 +1,7 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity
 
 import android.content.Intent
+import android.content.pm.ActivityInfo
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -23,8 +24,11 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
 
     lateinit var command: String
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
 
         val database = PasswordManagerDatabase(this)
