@@ -77,22 +77,37 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
         }
 
         viewModel = (activity as CreateEditViewPasswordActivity).viewModel
+
+
+
+        accountDetailList = mutableListOf<EntryDetail>()
+
+        val securityClass = EncryptionDecryption()
+
         val rvAccountDetails = binding.rvAccountDetails
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
 
-/*
+       CoroutineScope(Dispatchers.IO).launch {
 
-        accountDetailList = mutableListOf<EntryDetail>()
-         viewModel.getAllEntryDetails(data.id).observe(viewLifecycleOwner, androidx.lifecycle.Observer {  entryDetailList ->
-             accountDetailList = entryDetailList as MutableList<EntryDetail>
-             adapter = PasswordAccountInfoAdapter(accountDetailList)
-             rvAccountDetails.adapter = adapter
-        })
+           val oldEntryDetailList = viewModel.getAllEntryDetailsOneTime(data.id)
+           for(i in 0..oldEntryDetailList.size-1) {
 
-*/
+               val oldEntryDetailKey = viewModel.getAllEncryptedKeysOneTime(oldEntryDetailList[i].id)[0]
+               val decryptedData = securityClass.decrypt(
+                   oldEntryDetailList[i].detailContent,
+                   oldEntryDetailKey.emdKey,
+                   securityClass.getKey()
+               )
 
+               val decryptedEntryDetail = EntryDetail(oldEntryDetailList[i].id,oldEntryDetailList[i].entryId,oldEntryDetailList[i].detailType,decryptedData)
+               accountDetailList.add(decryptedEntryDetail)
+           }
 
-
+           withContext(Dispatchers.Main) {
+               adapter = PasswordAccountInfoAdapter(accountDetailList)
+               rvAccountDetails.adapter = adapter
+           }
+       }
 
 
         val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,0) {
@@ -118,7 +133,7 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
 
 
 
-        var companyIcon = 0
+        var companyIcon = data.icon
 
         binding.btnBack.setOnClickListener {
             (activity as CreateEditViewPasswordActivity).finish()
@@ -246,21 +261,30 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                         val password1 = Passwords.PASSWORD1
                         val password2 = Passwords.PASSWORD2
 
+
                         CoroutineScope(Dispatchers.IO).launch {
 
-                            val entry = Entry(data.id, entryTitle, entryCategory, entryIcon, 0)
+                            // Deleting Old Data
 
+                            val oldEntryDetailList = viewModel.getAllEntryDetailsOneTime(data.id)
+                            for(i in 0..oldEntryDetailList.size-1) {
+                                viewModel.deleteEncryptedKeys(oldEntryDetailList[i].id)
+                            }
+                            viewModel.deleteEntryDetails(data.id)
+
+
+                            // Adding New Data
+
+                            val entry = Entry(data.id, entryTitle, entryCategory, entryIcon, data.favourite)
 
                             val id = async { viewModel.upsertEntry(entry) }.await()
-
-
 
                             for(entryDetail in entryDetailsList) {
                                 val securityClass = EncryptionDecryption()
                                 val encryptedObject = securityClass.encrypt(
                                     entryDetail.detailContent,
                                     password1,
-                                    password2
+                                    securityClass.getKey()
                                 )
                                 val encryptedData = encryptedObject.encryptedData
                                 val emdKey = encryptedObject.key
@@ -274,6 +298,9 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                                 ) }.await()
                                 val keyObject = EncryptedKey(0, entryDetailId, emdKey)
                                 async { viewModel.upsertEncryptedKey(keyObject) }.await()
+
+
+
                             }
 
                             withContext(Dispatchers.Main) {

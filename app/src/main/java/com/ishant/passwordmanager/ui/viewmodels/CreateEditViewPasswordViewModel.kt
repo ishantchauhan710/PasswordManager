@@ -61,6 +61,9 @@ class CreateEditViewPasswordViewModel(private val repository: PasswordManagerRep
 
     fun getLockPassword(): LiveData<List<Lock>> = repository.getLockPassword()
 
+    fun getAllEntryDetailsOneTime(id: Int) = repository.getAllEntryDetailsOneTime(id)
+
+    fun getAllEncryptedKeysOneTime(id: Int) = repository.getAllEncryptedKeysOneTime(id)
 
 
 

@@ -55,4 +55,12 @@ interface PasswordManagerDao {
     @Query("SELECT * FROM table_lock")
     fun getLockPassword(): LiveData<List<Lock>>
 
+    @Query("SELECT * FROM entry_details WHERE entryId = :id")
+    fun getAllEntryDetailsOneTime(id: Int): List<EntryDetail>
+
+    @Query("SELECT * FROM keys WHERE entryDetailId = :id")
+    fun getAllEncryptedKeysOneTime(id: Int): List<EncryptedKey>
+
+
+
 }

@@ -64,7 +64,6 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
         }
 
 
-
             viewModel.getAllEntryDetails(data.id).observe(viewLifecycleOwner, Observer {
                 entryDetailAdapter.differ.submitList(it)
             })

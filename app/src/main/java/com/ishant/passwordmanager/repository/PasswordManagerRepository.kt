@@ -42,6 +42,10 @@ class PasswordManagerRepository(val db: PasswordManagerDatabase) {
 
     fun getLockPassword(): LiveData<List<Lock>> = db.getPasswordManagerDao().getLockPassword()
 
+    fun getAllEntryDetailsOneTime(id: Int) = db.getPasswordManagerDao().getAllEntryDetailsOneTime(id)
+
+    fun getAllEncryptedKeysOneTime(id: Int) = db.getPasswordManagerDao().getAllEncryptedKeysOneTime(id)
+
 
 
 
