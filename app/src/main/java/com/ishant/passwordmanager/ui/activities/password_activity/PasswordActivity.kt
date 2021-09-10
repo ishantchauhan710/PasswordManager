@@ -133,6 +133,24 @@ class PasswordActivity : AppCompatActivity() {
         }
 
 
+        updateDrawerMenuBatch()
+
+
+
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding.navView.setSelection(1, true)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.navView.setSelection(1, true)
+    }
+
+    fun updateDrawerMenuBatch() {
+
 
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
@@ -278,8 +296,7 @@ class PasswordActivity : AppCompatActivity() {
             }
         })
 
-
-
+        binding.navView.itemAdapter.removeRange(0,6)
         // get the reference to the slider and add the items
         binding.navView.itemAdapter.add(
             item1,
@@ -293,7 +310,6 @@ class PasswordActivity : AppCompatActivity() {
             item8
         )
 
-        binding.navView.setSelection(1)
 
         // specify a click listener
         binding.navView.onDrawerItemClickListener = { v, drawerItem, position ->
@@ -351,17 +367,6 @@ class PasswordActivity : AppCompatActivity() {
 
 
     }
-
-    override fun onPause() {
-        super.onPause()
-        binding.navView.setSelection(1, true)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        binding.navView.setSelection(1, true)
-    }
-
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

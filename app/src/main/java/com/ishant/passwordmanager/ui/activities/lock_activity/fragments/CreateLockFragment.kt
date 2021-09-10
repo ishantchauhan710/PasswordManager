@@ -1,6 +1,7 @@
 package com.ishant.passwordmanager.ui.activities.lock_activity.fragments
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -10,14 +11,15 @@ import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.CreateLockBottomSheetBinding
 import com.ishant.passwordmanager.databinding.FragmentCreateLockBinding
 import com.ishant.passwordmanager.db.entities.Lock
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
 import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
+import kotlinx.coroutines.*
 
 class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
+
+    lateinit var dialog: ProgressDialog
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -64,11 +66,30 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
                             mBottomSheetBinding.layoutLockPasswordHint.error = "Password Hint cannot be blank"
                         } else {
                             CoroutineScope(Dispatchers.IO).launch {
-                                val lock = Lock(0,password,"ishant",hint,cbBruteForce)
-                                async { viewModel.setLock(lock) }.await()
-                                val intent = Intent(requireContext(), PasswordActivity::class.java)
-                                startActivity(intent)
-                                requireActivity().finish()
+                                withContext(Dispatchers.Main) {
+                                    dialog = ProgressDialog.show(requireContext(),
+                                        "Please wait",
+                                        "We are creating your account",
+                                        true,
+                                        false)
+                                    dialog.show()
+                                    withContext(Dispatchers.IO) {
+                                        val securityClass = EncryptionDecryption()
+                                        val password1 = PASSWORD1
+                                        val encryptedPasswordObject = securityClass.encrypt(password,password1,securityClass.getKey())
+                                        val lock = Lock(0,encryptedPasswordObject.encryptedData,encryptedPasswordObject.key,hint,cbBruteForce)
+
+                                                async { viewModel.setLock(lock) }.await()
+                                                delay(2000)
+                                        withContext(Dispatchers.Main) {
+                                            mBottomSheetDialog.dismiss()
+                                            dialog.dismiss()
+                                            val intent = Intent(requireContext(), PasswordActivity::class.java)
+                                            startActivity(intent)
+                                            requireActivity().finish()
+                                        }
+                                    }
+                                }
                             }
                         }
                     }
@@ -77,6 +98,8 @@ class CreateLockFragment : Fragment(R.layout.fragment_create_lock) {
 
         }
     }
+
+
 
 }
 

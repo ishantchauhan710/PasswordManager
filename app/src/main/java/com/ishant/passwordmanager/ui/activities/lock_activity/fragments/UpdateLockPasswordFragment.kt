@@ -9,7 +9,9 @@ import androidx.lifecycle.Observer
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.FragmentUpdateLockPasswordBinding
 import com.ishant.passwordmanager.db.entities.Lock
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
+import com.ishant.passwordmanager.util.Passwords
 import kotlinx.coroutines.*
 
 
@@ -41,7 +43,9 @@ class UpdateLockPasswordFragment : Fragment(R.layout.fragment_update_lock_passwo
         viewModel.getLockPassword().observe(viewLifecycleOwner, Observer { lockPassword ->
 
             binding.btnChangePassword.setOnClickListener {
-                val correctOldPassword = lockPassword[0].password
+
+                val securityClass = EncryptionDecryption()
+                val correctOldPassword = securityClass.decrypt(lockPassword[0].password,lockPassword[0].key,securityClass.getKey())
                 val oldPassword = binding.layoutOldLockPassword.editText?.text.toString()
                 val password = binding.layoutLockPassword.editText?.text.toString()
                 val hint = binding.layoutLockPasswordHint.editText?.text.toString()
@@ -72,7 +76,9 @@ class UpdateLockPasswordFragment : Fragment(R.layout.fragment_update_lock_passwo
                                     binding.layoutLockPasswordHint.error = "Password Hint cannot be blank"
                                 } else {
                                     CoroutineScope(Dispatchers.IO).launch {
-                                        val lock = Lock(0,password,"ishant",hint,cbBruteForce)
+                                        val encryptedPasswordObject = securityClass.encrypt(password,
+                                            Passwords.PASSWORD1,securityClass.getKey())
+                                        val lock = Lock(0,encryptedPasswordObject.encryptedData,encryptedPasswordObject.key,hint,cbBruteForce)
                                         async { viewModel.setLock(lock) }.await()
                                         withContext(Dispatchers.Main) {
                                             Toast.makeText(requireContext().applicationContext,"Password Changed Successfully",Toast.LENGTH_SHORT).show()

@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.ui.activities.lock_activity.fragments
 
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -8,6 +9,7 @@ import androidx.lifecycle.Observer
 import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.FragmentLockPasswordBinding
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.lock_activity.LockActivity
 import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import kotlinx.coroutines.*
@@ -25,9 +27,9 @@ class LockPasswordFragment : Fragment(R.layout.fragment_lock_password) {
         viewModel.getLockPassword().observe(viewLifecycleOwner, Observer { lockData ->
 
             binding.layoutLockPassword.helperText = "Password Hint: ${lockData[0].hint}"
-
             binding.btnLoginAccount.setOnClickListener {
-                val correctPassword = lockData[0].password
+                val securityClass = EncryptionDecryption()
+                val correctPassword = securityClass.decrypt(lockData[0].password,lockData[0].key,securityClass.getKey())
                 val password = binding.layoutLockPassword.editText?.text.toString()
                 if(password.isEmpty() || password.isBlank()) {
                     Snackbar.make(view,"Password cannot be blank",Snackbar.LENGTH_SHORT).show()
