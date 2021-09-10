@@ -1,18 +1,24 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
+import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyViewerAdapter
 import com.ishant.passwordmanager.databinding.FragmentViewPasswordsBinding
+import com.ishant.passwordmanager.db.entities.EntryDetail
 import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
+import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.util.CompanyListData
 import kotlinx.android.synthetic.main.fragment_view_passwords.view.*
 
@@ -54,6 +60,12 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
             "Other" -> binding.ivCategoryIcon.setImageResource(R.drawable.ic_others)
         }
 
+        binding.btnBack.setOnClickListener {
+            val intent = Intent(requireContext(), PasswordActivity::class.java)
+            startActivity(intent)
+            (activity as CreateEditViewPasswordActivity).finish()
+        }
+
 
 
         val securityClass = EncryptionDecryption()
@@ -64,9 +76,19 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
         }
 
 
-            viewModel.getAllEntryDetails(data.id).observe(viewLifecycleOwner, Observer {
-                entryDetailAdapter.differ.submitList(it)
-            })
+        viewModel.getAllEntryDetails(data.id).observe(viewLifecycleOwner, Observer {
+            entryDetailAdapter.differ.submitList(it)
+        })
+
+        /*
+              val emptyAdapterList = listOf<EntryDetail>()
+            val emptyAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner,view,requireContext(),securityClass)
+            binding.rvAccountDetails.adapter = emptyAdapter
+            emptyAdapter.differ.submitList(emptyAdapterList)
+
+         */
+
+
 
 
     }

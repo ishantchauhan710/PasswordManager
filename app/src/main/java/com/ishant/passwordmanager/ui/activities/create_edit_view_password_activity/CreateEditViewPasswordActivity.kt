@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
@@ -11,6 +12,7 @@ import com.ishant.passwordmanager.databinding.ActivityCreateEditViewPasswordBind
 import com.ishant.passwordmanager.databinding.ActivityPasswordBinding
 import com.ishant.passwordmanager.db.PasswordManagerDatabase
 import com.ishant.passwordmanager.repository.PasswordManagerRepository
+import com.ishant.passwordmanager.ui.activities.password_activity.PasswordActivity
 import com.ishant.passwordmanager.ui.factories.CreateEditViewPasswordViewModelProviderFactory
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 
@@ -59,6 +61,8 @@ class CreateEditViewPasswordActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        val intent = Intent(this, PasswordActivity::class.java)
+        startActivity(intent)
         finish()
     }
 

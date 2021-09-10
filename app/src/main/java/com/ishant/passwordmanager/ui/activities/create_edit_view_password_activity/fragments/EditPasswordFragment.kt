@@ -138,6 +138,8 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
         var companyIcon = data.icon
 
         binding.btnBack.setOnClickListener {
+            val intent = Intent(requireContext(), PasswordActivity::class.java)
+            startActivity(intent)
             (activity as CreateEditViewPasswordActivity).finish()
         }
 
