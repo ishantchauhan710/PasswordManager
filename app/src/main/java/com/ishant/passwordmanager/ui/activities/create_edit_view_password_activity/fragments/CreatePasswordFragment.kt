@@ -279,6 +279,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                             }
 
                                withContext(Dispatchers.Main) {
+                                   dialog.dismiss()
                                    val intent = Intent(requireContext(),
                                        PasswordActivity::class.java)
                                    startActivity(intent)

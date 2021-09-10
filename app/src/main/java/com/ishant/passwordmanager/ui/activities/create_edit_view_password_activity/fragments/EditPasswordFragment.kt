@@ -308,6 +308,7 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                             }
 
                             withContext(Dispatchers.Main) {
+                                dialog.dismiss()
                                 val intent = Intent(requireContext(), PasswordActivity::class.java)
                                 startActivity(intent)
                                 (activity as CreateEditViewPasswordActivity).finish()
