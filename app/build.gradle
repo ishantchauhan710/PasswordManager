@@ -101,4 +101,7 @@ dependencies {
     // Material Drawer Layout
     implementation "com.mikepenz:materialdrawer:8.4.3"
 
+    // Showcase View
+    implementation 'com.github.faruktoptas:FancyShowCaseView:1.3.5'
+
 }

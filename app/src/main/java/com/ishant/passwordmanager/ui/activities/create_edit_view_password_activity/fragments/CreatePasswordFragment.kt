@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.fragments
 
+import android.app.Activity
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
@@ -36,6 +37,7 @@ import com.ishant.passwordmanager.util.CompanyListData
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
 import kotlinx.coroutines.*
+import me.toptas.fancyshowcase.FancyShowCaseView
 import java.util.*
 
 
@@ -46,6 +48,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
     val accountDetailList = mutableListOf<EntryDetail>()
     lateinit var viewModel: CreateEditViewPasswordViewModel
+
+
+
+
+    fun rand(from: Int, to: Int) : Int {
+        val random = Random()
+        return random.nextInt(to - from) + from
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -62,33 +72,50 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
         rvAccountDetails.adapter = adapter
         rvAccountDetails.layoutManager = LinearLayoutManager(requireContext())
 
-         val itemTouchHelper = ItemTouchHelper(object: ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN,0) {
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                val startPos = viewHolder.adapterPosition
-                val endPos = target.adapterPosition
-                Collections.swap(accountDetailList, startPos, endPos)
-                adapter.notifyItemMoved(startPos, endPos)
-                return true
-            }
+         val itemTouchHelper = ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+             ItemTouchHelper.UP or ItemTouchHelper.DOWN,
+             0) {
+             override fun onMove(
+                 recyclerView: RecyclerView,
+                 viewHolder: RecyclerView.ViewHolder,
+                 target: RecyclerView.ViewHolder,
+             ): Boolean {
+                 val startPos = viewHolder.adapterPosition
+                 val endPos = target.adapterPosition
+                 Collections.swap(accountDetailList, startPos, endPos)
+                 adapter.notifyItemMoved(startPos, endPos)
+                 return true
+             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
 
-            }
-        })
+             }
+         })
 
         itemTouchHelper.attachToRecyclerView(binding.rvAccountDetails)
 
+        val num = rand(1,4)
+
+        if(num==1 || num==2) {
+            FancyShowCaseView.Builder(requireActivity())
+                .focusOn(binding.btnNewEntry)
+                .title("Click here to add a new item")
+                .build()
+                .show()
+            } else {
+            FancyShowCaseView.Builder(requireActivity())
+                .focusOn(binding.btnIcon)
+                .title("Click here to select an icon")
+                .build()
+                .show()
+        }
 
 
 
         var companyIcon = 0
 
         binding.btnBack.setOnClickListener {
-            val intent = Intent(requireContext(),PasswordActivity::class.java)
+            val intent = Intent(requireContext(), PasswordActivity::class.java)
             startActivity(intent)
             (activity as CreateEditViewPasswordActivity).finish()
         }
@@ -111,6 +138,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             iBottomSheetDialog.show()
             companyAdapter.setOnItemClickListener {
                 companyIcon = it.id
+                Snackbar.make(view, "${it.companyName}'s logo selected", Snackbar.LENGTH_SHORT).show()
                 iBottomSheetDialog.dismiss()
             }
 
@@ -154,27 +182,27 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             popupMenu.setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.miUsername -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,0)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 0)
                         popupMenu.dismiss()
                     }
                     R.id.miEmail -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,1)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 1)
                         popupMenu.dismiss()
                     }
                     R.id.miPhone -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,2)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 2)
                         popupMenu.dismiss()
                     }
                     R.id.miPassword -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,3)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 3)
                         popupMenu.dismiss()
                     }
                     R.id.miWebsite -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,4)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 4)
                         popupMenu.dismiss()
                     }
                     R.id.miNote -> {
-                        showBottomSheet(mBottomSheetDialog,sheetBinding,5)
+                        showBottomSheet(mBottomSheetDialog, sheetBinding, 5)
                         popupMenu.dismiss()
                     }
 
@@ -210,7 +238,11 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
                         dialog.show()*/
 
-                        val dialog = ProgressDialog.show(requireContext(), "Saving", "Please wait, we are encrypting and saving all your information", true, false)
+                        val dialog = ProgressDialog.show(requireContext(),
+                            "Saving",
+                            "Please wait, we are encrypting and saving all your information",
+                            true,
+                            false)
                         dialog.show()
 
                         val password1 = PASSWORD1
@@ -247,7 +279,8 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                             }
 
                                withContext(Dispatchers.Main) {
-                                   val intent = Intent(requireContext(),PasswordActivity::class.java)
+                                   val intent = Intent(requireContext(),
+                                       PasswordActivity::class.java)
                                    startActivity(intent)
                                    (activity as CreateEditViewPasswordActivity).finish()
                                }
@@ -275,7 +308,11 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
 
-    private fun showBottomSheet(mBottomSheetDialog: RoundedBottomSheetDialog, sheetBinding: BottomSheetOptionsBinding,optionType: Int) {
+    private fun showBottomSheet(
+        mBottomSheetDialog: RoundedBottomSheetDialog,
+        sheetBinding: BottomSheetOptionsBinding,
+        optionType: Int,
+    ) {
 
         var detailType = ""
         var detailContent = ""
@@ -287,12 +324,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             0 -> {
                 detailType = "Username"
                 sheetBinding.optionInputLayout.helperText = "Eg. user710"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             }
             1 -> {
                 detailType = "Email"
                 sheetBinding.optionInputLayout.helperText = "Eg. user@example.com"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
 
             }
             2 -> {
@@ -305,12 +344,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                 detailType = "Password"
                 sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = true
                 sheetBinding.optionInputLayout.helperText = "Always keep strong passwords"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             }
             4 -> {
                 detailType = "Website"
                 sheetBinding.optionInputLayout.helperText = "Eg. www.example.com"
-                sheetBinding.optionInputLayout.editText?.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
+                sheetBinding.optionInputLayout.editText?.inputType =
+                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             }
             5 -> {
                 detailType = "Notes"
