@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.adapters.LogoCompanyViewerAdapter
 import com.ishant.passwordmanager.databinding.FragmentViewPasswordsBinding
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.util.CompanyListData
 import kotlinx.android.synthetic.main.fragment_view_passwords.view.*
@@ -55,7 +56,8 @@ class ViewPasswordsFragment : Fragment(R.layout.fragment_view_passwords) {
 
 
 
-        val entryDetailAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner,view,requireContext())
+        val securityClass = EncryptionDecryption()
+        val entryDetailAdapter = LogoCompanyViewerAdapter(viewModel,viewLifecycleOwner,view,requireContext(),securityClass)
         binding.rvAccountDetails.apply {
             adapter = entryDetailAdapter
             layoutManager = LinearLayoutManager(requireContext())

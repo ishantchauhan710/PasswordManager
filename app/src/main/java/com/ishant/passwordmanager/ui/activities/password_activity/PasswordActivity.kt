@@ -5,6 +5,7 @@ import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.view.*
 import android.widget.ImageView
@@ -66,7 +67,7 @@ class PasswordActivity : AppCompatActivity() {
         setUpActionBar()
         setUpNavigationBar()
 
-        Toast.makeText(this, EncryptionDecryption().getKey(),Toast.LENGTH_LONG).show()
+        //Toast.makeText(this, EncryptionDecryption().getKey(),Toast.LENGTH_LONG).show()
 
         val emptyList = listOf<Entry>()
         viewModel.filteredSearchList.postValue(emptyList)

@@ -92,6 +92,8 @@ dependencies {
 
     // Encryption Dependencies
     implementation 'com.github.tozny:java-aes-crypto:1.1.0'
+    implementation 'com.github.simbiose:Encryption:2.0.1'
+
 
     // Password Strength Meter
     implementation 'nu.aaro.gustav:passwordstrengthmeter:0.4'

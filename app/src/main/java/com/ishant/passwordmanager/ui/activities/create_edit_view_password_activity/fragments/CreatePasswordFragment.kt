@@ -26,7 +26,7 @@ import com.ishant.passwordmanager.databinding.FragmentCreatePasswordBinding
 import com.ishant.passwordmanager.db.entities.EncryptedKey
 import com.ishant.passwordmanager.db.entities.Entry
 import com.ishant.passwordmanager.db.entities.EntryDetail
-import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.encrypt
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.activities.create_edit_view_password_activity.CreateEditViewPasswordActivity
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.CompanyList
@@ -222,15 +222,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
 
 
                                 for(entryDetail in entryDetailsList) {
-
-                                    val encryptedObject = encrypt(
+                                    val securityClass = EncryptionDecryption()
+                                    val encryptedObject = securityClass.encrypt(
                                         entryDetail.detailContent,
                                         password1,
                                         password2
                                     )
                                     val encryptedData = encryptedObject.encryptedData
-                                    val emdKey = encryptedObject.key1
-                                    val eedKey = encryptedObject.key2
+                                    val emdKey = encryptedObject.key
 
                                     entryDetail.id = 0
                                     entryDetail.entryId = id
@@ -239,7 +238,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                                     val entryDetailId = async { viewModel.upsertEntryDetail(
                                         entryDetail
                                     ) }.await()
-                                    val saltObject = EncryptedKey(0, entryDetailId, emdKey, eedKey)
+                                    val saltObject = EncryptedKey(0, entryDetailId, emdKey)
                                     async { viewModel.upsertEncryptedKey(saltObject) }.await()
                             }
 

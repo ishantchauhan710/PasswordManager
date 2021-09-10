@@ -2,6 +2,9 @@ package com.ishant.passwordmanager.security
 
 import com.ishant.passwordmanager.util.EncryptedObject
 import com.tozny.crypto.android.AesCbcWithIntegrity.*
+import se.simbio.encryption.Encryption
+import third.part.android.util.Base64
+
 
 class EncryptionDecryption {
 
@@ -11,29 +14,24 @@ class EncryptionDecryption {
 
     external fun getKey(): String
 
-
-    companion object {
-
-        fun encrypt(data: String, emdPasswordArg: String, eedPasswordArg: String): EncryptedObject {
+        fun encrypt(data: String, emdPasswordArg: String, eedKeyArg: String): EncryptedObject {
             val emdSalt = saltString(generateSalt())
-            val emdKey = generateKeyFromPassword(emdPasswordArg,emdSalt)
+            val emdKey = generateKeyFromPassword(emdPasswordArg, emdSalt)
             val emdEncryptedString = encrypt(data, emdKey).toString()
-            val eedSalt = saltString(generateSalt())
-            val eedKey = generateKeyFromPassword(eedPasswordArg,eedSalt)
-            val eedEncryptedString = encrypt(emdEncryptedString, eedKey).toString()
-            return EncryptedObject(keyString(emdKey), keyString(eedKey), eedEncryptedString)
+
+            return EncryptedObject(keyString(emdKey), emdEncryptedString)
         }
 
         fun decrypt(encryptedData: String, emdKeyArg: String, eedKeyArg: String): String {
-            val eedDecryptedString = decryptString(CipherTextIvMac(encryptedData), keys(eedKeyArg))
-            val emdDecryptedString = decryptString(CipherTextIvMac(eedDecryptedString),keys(emdKeyArg))
+
+
+            val emdDecryptedString = decryptString(CipherTextIvMac(encryptedData), keys(emdKeyArg))
             return emdDecryptedString
         }
 
 
     }
 
-}
 
 
 /*

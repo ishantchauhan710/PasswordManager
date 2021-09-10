@@ -256,15 +256,14 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
 
 
                             for(entryDetail in entryDetailsList) {
-
-                                val encryptedObject = EncryptionDecryption.encrypt(
+                                val securityClass = EncryptionDecryption()
+                                val encryptedObject = securityClass.encrypt(
                                     entryDetail.detailContent,
                                     password1,
                                     password2
                                 )
                                 val encryptedData = encryptedObject.encryptedData
-                                val emdKey = encryptedObject.key1
-                                val eedKey = encryptedObject.key2
+                                val emdKey = encryptedObject.key
 
                                 entryDetail.id = 0
                                 entryDetail.entryId = id
@@ -273,8 +272,8 @@ class EditPasswordFragment : Fragment(R.layout.fragment_edit_password) {
                                 val entryDetailId = async { viewModel.upsertEntryDetail(
                                     entryDetail
                                 ) }.await()
-                                val saltObject = EncryptedKey(0, entryDetailId, emdKey, eedKey)
-                                async { viewModel.upsertEncryptedKey(saltObject) }.await()
+                                val keyObject = EncryptedKey(0, entryDetailId, emdKey)
+                                async { viewModel.upsertEncryptedKey(keyObject) }.await()
                             }
 
                             withContext(Dispatchers.Main) {

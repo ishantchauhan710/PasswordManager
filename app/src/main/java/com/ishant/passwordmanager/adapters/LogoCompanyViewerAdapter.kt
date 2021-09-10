@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.ishant.passwordmanager.R
 import com.ishant.passwordmanager.databinding.LayoutViewAccountInfoBinding
 import com.ishant.passwordmanager.db.entities.EntryDetail
-import com.ishant.passwordmanager.security.EncryptionDecryption.Companion.decrypt
+import com.ishant.passwordmanager.security.EncryptionDecryption
 import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD1
 import com.ishant.passwordmanager.util.Passwords.Companion.PASSWORD2
@@ -30,7 +30,8 @@ class LogoCompanyViewerAdapter(
     private val viewModel: CreateEditViewPasswordViewModel,
     private val owner: LifecycleOwner,
     private val mainView: View,
-    private val mContext: Context
+    private val mContext: Context,
+    private val securityClass: EncryptionDecryption
 ): RecyclerView.Adapter<LogoCompanyViewerAdapter.LogoCompanyViewerAdapterViewHolder>() {
     inner class LogoCompanyViewerAdapterViewHolder(val binding: LayoutViewAccountInfoBinding): RecyclerView.ViewHolder(
         binding.root
@@ -68,12 +69,12 @@ class LogoCompanyViewerAdapter(
     override fun onBindViewHolder(holder: LogoCompanyViewerAdapterViewHolder, position: Int) {
         val entry = differ.currentList[position]
 
-        viewModel.getAllEncryptedKeys(entry.id).observe(owner, Observer { encryptedSaltList ->
-            val encryptedSalt = encryptedSaltList[0]
-            val decryptedData = decrypt(
+        viewModel.getAllEncryptedKeys(entry.id).observe(owner, Observer { encryptedKeyList ->
+            val encryptedKey = encryptedKeyList[0]
+            val decryptedData = securityClass.decrypt(
                 entry.detailContent,
-                encryptedSalt.emdKey,
-                encryptedSalt.eedKey
+                encryptedKey.emdKey,
+                securityClass.getKey()
             )
 
             holder.binding.tvInfoType.text = entry.detailType

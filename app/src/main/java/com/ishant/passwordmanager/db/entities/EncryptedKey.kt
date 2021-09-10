@@ -9,5 +9,4 @@ data class EncryptedKey (
     val id: Int,
     val entryDetailId: Long,
     val emdKey: String,
-    val eedKey: String
 )
