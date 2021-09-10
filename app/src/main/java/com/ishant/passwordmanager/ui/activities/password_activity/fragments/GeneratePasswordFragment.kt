@@ -118,18 +118,22 @@ class GeneratePasswordFragment : Fragment(R.layout.fragment_generate_password) {
     }
 
     private fun getPasswordScore(password: String): Int {
-        if(password.length == 0) {
+        if(password.isEmpty() || password.isBlank()) {
             return 0
-        } else if (password.length in 1..3) {
-            return 1
-        } else if (password.length in 4..6) {
-            return 2
-        } else if (password.length in 7..9) {
-            return 3
-        } else if (password.length in 10..12) {
-            return 4
         } else {
-            return 5
+            if(password.length == 0) {
+                return 0
+            } else if (password.length in 1..3) {
+                return 1
+            } else if (password.length in 4..6) {
+                return 2
+            } else if (password.length in 7..9) {
+                return 3
+            } else if (password.length in 10..12) {
+                return 4
+            } else {
+                return 5
+            }
         }
     }
 
