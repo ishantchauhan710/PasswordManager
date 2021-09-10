@@ -226,7 +226,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
                                     val encryptedObject = securityClass.encrypt(
                                         entryDetail.detailContent,
                                         password1,
-                                        password2
+                                        securityClass.getKey()
                                     )
                                     val encryptedData = encryptedObject.encryptedData
                                     val emdKey = encryptedObject.key
