@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ishant.passwordmanager.databinding.LogoCompanyBinding
 import com.ishant.passwordmanager.util.CompanyList
 
+
 class LogoCompanyChooserAdapter(private val companyList: List<CompanyList>): RecyclerView.Adapter<LogoCompanyChooserAdapter.LogoCompanyChooserAdapterViewHolder>() {
     inner class LogoCompanyChooserAdapterViewHolder(val binding: LogoCompanyBinding): RecyclerView.ViewHolder(binding.root)
 
