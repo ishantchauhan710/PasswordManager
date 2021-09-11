@@ -23,7 +23,7 @@ object CompanyListData {
     CompanyList(15,"Quora",R.drawable.cl_quora),
     CompanyList(16,"Reddit",R.drawable.cl_reddit),
     CompanyList(17,"Snapchat",R.drawable.cl_snapchat),
-    CompanyList(18,"Spotify",R.drawable.cl_spotify),
+    //CompanyList(18,"Spotify",R.drawable.cl_spotify),
     CompanyList(19,"Udemy",R.drawable.cl_udemy),
     CompanyList(20,"Yahoo",R.drawable.cl_yahoo)
     )

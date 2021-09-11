@@ -44,6 +44,7 @@ class PasswordsFragment : Fragment(R.layout.fragment_passwords) {
             intent.putExtra("data",it)
             //Toast.makeText(requireContext(),"Id: ${it.id}",Toast.LENGTH_SHORT).show()
             startActivity(intent)
+            (activity as PasswordActivity).finish()
 
         }
 

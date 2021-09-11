@@ -330,6 +330,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             1 -> {
                 detailType = "Email"
+                sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = false
                 sheetBinding.optionInputLayout.helperText = "Eg. user@example.com"
                 sheetBinding.optionInputLayout.editText?.inputType =
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
@@ -337,6 +338,7 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             2 -> {
                 detailType = "Phone Number"
+                sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = false
                 sheetBinding.optionInputLayout.editText?.inputType =
                     InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED or InputType.TYPE_CLASS_PHONE
                 sheetBinding.optionInputLayout.helperText = "Eg. +91 9876012345"
@@ -350,12 +352,14 @@ class CreatePasswordFragment : Fragment(R.layout.fragment_create_password) {
             }
             4 -> {
                 detailType = "Website"
+                sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = false
                 sheetBinding.optionInputLayout.helperText = "Eg. www.example.com"
                 sheetBinding.optionInputLayout.editText?.inputType =
                     InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_NORMAL
             }
             5 -> {
                 detailType = "Notes"
+                sheetBinding.optionInputLayout.isPasswordVisibilityToggleEnabled = false
                 sheetBinding.optionInputLayout.editText?.minLines = 3
                 sheetBinding.optionInputLayout.helperText = "You can add some notes or details here"
                 sheetBinding.optionInputLayout.editText?.inputType =

@@ -1,5 +1,6 @@
 package com.ishant.passwordmanager.adapters
 
+import android.R.attr.*
 import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.get
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -23,8 +25,16 @@ import com.ishant.passwordmanager.ui.viewmodels.CreateEditViewPasswordViewModel
 import com.ishant.passwordmanager.util.CompanyListData
 import kotlinx.coroutines.*
 
-class PasswordAdapter(private val mContext: Context, private val viewModel: CreateEditViewPasswordViewModel, private val owner: LifecycleOwner, private val fragmentView: View, private val activity: PasswordActivity): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
-    inner class PasswordAdapterViewHolder(val binding: PasswordBinding): RecyclerView.ViewHolder(binding.root)
+
+class PasswordAdapter(
+    private val mContext: Context,
+    private val viewModel: CreateEditViewPasswordViewModel,
+    private val owner: LifecycleOwner,
+    private val fragmentView: View,
+    private val activity: PasswordActivity
+): RecyclerView.Adapter<PasswordAdapter.PasswordAdapterViewHolder>() {
+    inner class PasswordAdapterViewHolder(val binding: PasswordBinding): RecyclerView.ViewHolder(
+        binding.root)
 
 
     private val differCallback = object: DiffUtil.ItemCallback<Entry>() {
@@ -37,10 +47,10 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
         }
     }
 
-    val differ = AsyncListDiffer(this,differCallback)
+    val differ = AsyncListDiffer(this, differCallback)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PasswordAdapterViewHolder {
-        val view = PasswordBinding.inflate(LayoutInflater.from(parent.context),parent,false)
+        val view = PasswordBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return PasswordAdapterViewHolder(view)
     }
 
@@ -59,6 +69,12 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
 
         viewModel.getAllEntryDetails(entry.id).observe(owner, Observer { entryDetailList ->
 
+
+            if (position == differ.currentList.size-1) {
+                holder.binding.marginLayoutRV.visibility = View.VISIBLE
+            } else {
+                holder.binding.marginLayoutRV.visibility = View.GONE
+            }
 
             holder.binding.tvPasswordTitle.setBackgroundColor(0x00000000)
             holder.binding.tvPasswordInfo.setBackgroundColor(0x00000000)
@@ -106,9 +122,10 @@ class PasswordAdapter(private val mContext: Context, private val viewModel: Crea
                     when (menuItem.itemId) {
                         R.id.miEdit -> {
 
-                            val intent = Intent(mContext.applicationContext,CreateEditViewPasswordActivity::class.java)
-                            intent.putExtra("command","edit")
-                            intent.putExtra("data",entry)
+                            val intent = Intent(mContext.applicationContext,
+                                CreateEditViewPasswordActivity::class.java)
+                            intent.putExtra("command", "edit")
+                            intent.putExtra("data", entry)
                             mContext.startActivity(intent)
 
                         }

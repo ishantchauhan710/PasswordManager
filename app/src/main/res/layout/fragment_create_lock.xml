@@ -54,7 +54,7 @@
                 android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:text="Securely manage all your accounts, passwords and other credentials with our highly secure app powered by two-level encryption"
-                android:textColor="#656565"
+                android:textColor="#919191"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
