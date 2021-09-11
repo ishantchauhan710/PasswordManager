@@ -5,6 +5,15 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 android {
+
+    signingConfigs {
+        passwordmanagerapp {
+            storeFile file('C:\\Users\\Ishant\\Desktop\\Password Manager\\key\\passwordmanagerkey.jks')
+            storePassword 'l89v8guu'
+            keyAlias 'key0'
+            keyPassword 'l89v8guu'
+        }
+    }
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
 
@@ -24,13 +33,18 @@ android {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
 
+
     }
+
 
     buildTypes {
         release {
+            debuggable true
+            signingConfig signingConfigs.passwordmanagerapp
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
         }
     }
     kotlinOptions {
