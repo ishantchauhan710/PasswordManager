@@ -10,9 +10,9 @@ android {
     signingConfigs {
         passwordmanagerapp {
             storeFile file('C:\\Users\\Ishant\\Desktop\\Password Manager\\key\\passwordmanagerkey.jks')
-            storePassword 'l89v8guu'
+            storePassword 'l...u'
             keyAlias 'key0'
-            keyPassword 'l89v8guu'
+            keyPassword 'l...u'
         }
     }
     */
@@ -26,8 +26,8 @@ android {
         applicationId "com.ishant.passwordmanager"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
