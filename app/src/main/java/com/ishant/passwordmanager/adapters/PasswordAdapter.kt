@@ -70,12 +70,6 @@ class PasswordAdapter(
         viewModel.getAllEntryDetails(entry.id).observe(owner, Observer { entryDetailList ->
 
 
-            if (position == differ.currentList.size-1) {
-                holder.binding.marginLayoutRV.visibility = View.VISIBLE
-            } else {
-                holder.binding.marginLayoutRV.visibility = View.GONE
-            }
-
             holder.binding.tvPasswordTitle.setBackgroundColor(0x00000000)
             holder.binding.tvPasswordInfo.setBackgroundColor(0x00000000)
             holder.binding.ivPasswordIcon.setBackgroundColor(0x00000000)
