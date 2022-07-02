@@ -3,6 +3,8 @@
 # Password Manager :closed_lock_with_key:
 Tired of memorizing all your passwords or struggling to keep them somewhere safe? This app is what you need!
 
+Check out this short [video](https://youtu.be/_cvvhmEi7Mk) about this app
+
 ## Application Install
 
 ***You can install the latest version of Password Manager from the link given below 👇***
@@ -14,8 +16,6 @@ Tired of memorizing all your passwords or struggling to keep them somewhere safe
 ![](https://play-lh.googleusercontent.com/-Cos0V6VBmG5_L9u8qddkPTzJfczZAOGD7y8jlZl8xHdWe_qLViHHn0kvh5G4-XP6A=w1052-h592-rw)
 
 Password manager is an app where you can store all your login credentials and other information in a secure and organized way. The app does not require any internet permission so all your information will securely stored inside your device.
-
-Here is a short [video](https://youtu.be/_cvvhmEi7Mk) about this app
 
 ## App Features :dart:
 
