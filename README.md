@@ -15,7 +15,6 @@ Tired of memorizing all your passwords or struggling to keep them somewhere safe
 
 Password manager is an app where you can store all your login credentials and other information in a secure and organized way. The app does not require any internet permission so all your information will securely stored inside your device.
 
-
 ## App Features :dart:
 
 - All the emails, passwords and other credentials stored using this app are encrypted two times using two different keys. One of the key is always unique and is generated during the runtime where as the other key remains hidden deep inside the app and is secured using the power of C++ NDK and proguard.
@@ -25,6 +24,17 @@ Password manager is an app where you can store all your login credentials and ot
 - If you have numerous of accounts to manage, you can add them to favourites, or you can categorize them and search later using the app.
 - A user can also set a password hint and change their password whenever they want. 
 - The app has a beautiful UI which makes it easy to use.
+
+## Screenshots 📸
+
+|   |   |   |
+|---|---|---|
+|![](app/screenshot1.jpg)| ![](app/screenshot2.jpg) | ![](app/screenshot3.jpg)
+|![](app/screenshot4.jpg)| ![](app/screenshot5.jpg) | ![](app/screenshot6.jpg)
+|![](app/screenshot7.jpg)| ![](app/screenshot8.jpg) | ![](app/screenshot9.jpg)
+|![](app/screenshot10.jpg)| ![](app/screenshot11.jpg) | ![](app/screenshot12.jpg)
+|![](app/screenshot13.jpg)| ![](app/screenshot14.jpg) | ![](app/screenshot15.jpg)
+
 
 ## Insights into the app :mag_right:
 
@@ -62,11 +72,11 @@ This app is built using [Model View ViewModel Architecture](https://developer.an
     |
     └── util                # Utility / Helper classes
 
+
 ## Built With :nut_and_bolt:
 * [Room Persistance Library](https://developer.android.com/training/data-storage/room) - This library provides an abstraction over SQLite and makes it a lot simpler to save and fetch data from a device's database.
 * [Coroutines](https://developer.android.com/kotlin/coroutines) - Coroutines are used to perform two or more tasks parallely or asynchronously. They are very useful when you need to load data from cloud into your app.
 * [NDK](https://developer.android.com/ndk) - Native Development Kit, enables you to write some part of your app's code in C language which makes it difficult to recover the encryption keys or API keys on reverse engineering.
-* [Lottie](https://lottiefiles.com/) - Lottie is another popular library developed by Airbnb. It makes it extremely easy to import and play .json format animations in our app.
 
 ## Contact :email:
 For any queries, you can mail me at developerishant710@gmail.com
