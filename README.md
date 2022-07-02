@@ -1,6 +1,6 @@
 ![](https://play-lh.googleusercontent.com/YUZrTtPNwzzuBa-Dkv9S_cqPChykJk63iu3qy0fzQ86NVCgfE-Dt4qAHBxYoLVgut54=w1052-h592-rw)
 
-# Password Manager
+# Password Manager :closed_lock_with_key:
 Tired of memorizing all your passwords or struggling to keep them somewhere safe? This app is what you need!
 
 ## Application Install
@@ -9,14 +9,14 @@ Tired of memorizing all your passwords or struggling to keep them somewhere safe
 
 [![Password Manager](https://img.shields.io/badge/DocuBox✅-APK-red.svg?style=for-the-badge&logo=android)](https://play.google.com/store/apps/details?id=com.ishant.passwordmanager&hl=en_US&gl=US)
 
-## About
+## About :notebook:
 
 ![](https://play-lh.googleusercontent.com/-Cos0V6VBmG5_L9u8qddkPTzJfczZAOGD7y8jlZl8xHdWe_qLViHHn0kvh5G4-XP6A=w1052-h592-rw)
 
 Password manager is an app where you can store all your login credentials and other information in a secure and organized way. The app does not require any internet permission so all your information will securely stored inside your device.
 
 
-## App Features
+## App Features :dart:
 
 - All the emails, passwords and other credentials stored using this app are encrypted two times using two different keys. One of the key is always unique and is generated during the runtime where as the other key remains hidden deep inside the app and is secured using the power of C++ NDK and proguard.
 - The app can also generate random passwords that can be copied to clipboard. A user can change the password generation criteria and also test the strength of his or her own passwords.
@@ -26,7 +26,7 @@ Password manager is an app where you can store all your login credentials and ot
 - A user can also set a password hint and change their password whenever they want. 
 - The app has a beautiful UI which makes it easy to use.
 
-## Insights into the app
+## Insights into the app :mag_right:
 
 ![](https://play-lh.googleusercontent.com/YOl0M8F-7dgMMh9ckoU6mF2MQ5gfbSfs94hpopJyarHXJiM0HqXGnq8lLPSImukxON1I=w1052-h592-rw)
 
@@ -34,15 +34,15 @@ Password manager is an app where you can store all your login credentials and ot
 
 ![](https://play-lh.googleusercontent.com/VfS77VnwwZ7l7N6jrDac9qSHF6Uo3EBNmuO-RSR-jT16i7rTuHKFbBTy_-YTq6JV8Q=w1052-h592-rw)
 
-## Project Setup
+## Project Setup :memo:
 Everything you want is included in this repository so all you need to do is to clone this repository on your computer and open it in android studio and then you are good to go!
 
-## Project Architecture
-This app is built using ![Model View ViewModel Architecture](https://developer.android.com/jetpack/docs/guide#recommended-app-arch).
+## Project Architecture :wrench:
+This app is built using [Model View ViewModel Architecture](https://developer.android.com/jetpack/docs/guide#recommended-app-arch).
 
 ![](https://github.com/Vaibhav2002/DocuBox-AndroidApp/raw/master/media/architecture.png)
 
-## Project Structure
+## Project Structure :hammer:
 
     com.passwordmanager     # Root Package
     .
@@ -62,6 +62,11 @@ This app is built using ![Model View ViewModel Architecture](https://developer.a
     |
     └── util                # Utility / Helper classes
 
+## Built With :nut_and_bolt:
+* [Room Persistance Library](https://developer.android.com/training/data-storage/room) - This library provides an abstraction over SQLite and makes it a lot simpler to save and fetch data from a device's database.
+* [Coroutines](https://developer.android.com/kotlin/coroutines) - Coroutines are used to perform two or more tasks parallely or asynchronously. They are very useful when you need to load data from cloud into your app.
+* [NDK](https://developer.android.com/ndk) - Native Development Kit, enables you to write some part of your app's code in C language which makes it difficult to recover the encryption keys or API keys on reverse engineering.
+* [Lottie](https://lottiefiles.com/) - Lottie is another popular library developed by Airbnb. It makes it extremely easy to import and play .json format animations in our app.
 
-## Contact
+## Contact :email:
 For any queries, you can mail me at developerishant710@gmail.com
