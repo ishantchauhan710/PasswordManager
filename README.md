@@ -15,6 +15,8 @@ Tired of memorizing all your passwords or struggling to keep them somewhere safe
 
 Password manager is an app where you can store all your login credentials and other information in a secure and organized way. The app does not require any internet permission so all your information will securely stored inside your device.
 
+Here is a short [video](https://youtu.be/_cvvhmEi7Mk) about this app
+
 ## App Features :dart:
 
 - All the emails, passwords and other credentials stored using this app are encrypted two times using two different keys. One of the key is always unique and is generated during the runtime where as the other key remains hidden deep inside the app and is secured using the power of C++ NDK and proguard.
